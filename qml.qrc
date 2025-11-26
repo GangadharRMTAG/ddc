@@ -9,5 +9,6 @@
         <file>Pages/TopBar.qml</file>
         <file>Components/AppText.qml</file>
         <file>Components/SafetyAreaBtn.qml</file>
+        <file>Pages/SafetyArea.qml</file>
     </qresource>
 </RCC>
