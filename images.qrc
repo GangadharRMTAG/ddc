@@ -14,5 +14,6 @@
         <file>Images/TopBar/seatBelt.png</file>
         <file>Images/TopBar/stop.png</file>
         <file>Images/TopBar/workLamp.png</file>
+        <file>Images/CASE_logo.png</file>
     </qresource>
 </RCC>
