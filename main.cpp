@@ -1,6 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include "./Logger/include/clogger.h"
+
 
 
 int main(int argc, char *argv[])
@@ -15,6 +17,9 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("isPortrait", QStringLiteral(ORIENTATION) == "PORTRAIT" ? true : false);
     qmlRegisterSingletonType(QUrl("qrc:///Singletons/Styles.qml"), "Styles", 1, 0, "Styles");
 
+    cLogger::instance().init("DCC_LOG");
+    cLogger::instance().setLoggerLevel(QtDebugMsg,"DCC");
+    cLogger::instance().setLoggerLevel(QtWarningMsg,"DCC");
 
     QObject::connect(
         &engine,

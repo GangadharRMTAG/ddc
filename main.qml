@@ -21,7 +21,9 @@ Window {
     }
 
     Component.onCompleted: {
+        console.log("Component.onCompleted in main.qml Start")
         splashTimer.start()
+        console.log("Component.onCompleted in main.qml End")
     }
 
     Timer{

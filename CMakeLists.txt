@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.16)
 project(DDC VERSION 0.1 LANGUAGES CXX)
 
 #  set orientation to [ PORTRAIT ] or [ LANDSCAPE ]
-set(ORIENTATION "LANDSCAPE")
+set(ORIENTATION "PORTRAIT")
 
 
 set(CMAKE_AUTOUIC ON)
@@ -27,6 +27,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         images.qrc
         Fonts.qrc
+        Logger/include/commonlib_global.h Logger/include/clogger.h
+        Logger/src/clogger.cpp
     )
 target_compile_definitions(DDC PRIVATE ORIENTATION="${ORIENTATION}")
 
