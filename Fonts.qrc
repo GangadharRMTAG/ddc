@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Fonts/NotoMono-Regular.ttf</file>
+        <file>Fonts/NotoSans-Regular.ttf</file>
+        <file>Fonts/Awesome_6_Pro_Solid.otf</file>
+    </qresource>
+</RCC>

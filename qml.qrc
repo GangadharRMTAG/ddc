@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MainApp_P.qml</file>
+        <file>MainApp_L.qml</file>
+        <file>Singletons/IconMap.qml</file>
+        <file>Singletons/Styles.qml</file>
+        <file>Components/Splashscreen.qml</file>
+        <file>Pages/TopBar.qml</file>
+    </qresource>
+</RCC>

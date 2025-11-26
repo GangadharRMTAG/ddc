@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Images/CASE_logo.png</file>
+    </qresource>
+</RCC>
