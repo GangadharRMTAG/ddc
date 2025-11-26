@@ -1,5 +1,15 @@
 <RCC>
     <qresource prefix="/">
         <file>Images/CASE_logo.png</file>
+        <file>Images/beacon.png</file>
+        <file>Images/cautation.png</file>
+        <file>Images/footPedal.png</file>
+        <file>Images/greedHeater.png</file>
+        <file>Images/hydraulicLock.png</file>
+        <file>Images/parkBrake.png</file>
+        <file>Images/regeneration.png</file>
+        <file>Images/seatBelt.png</file>
+        <file>Images/stop.png</file>
+        <file>Images/workLamp.png</file>
     </qresource>
 </RCC>

@@ -8,6 +8,7 @@ Window {
     width: isPortrait ? 400 : 850
     height:isPortrait ? 620 : 450
     visible: true
+    color : Styles.color.charcolNavy
     title: qsTr("CASE CONSTRUCTION")
 
     Splashscreen{

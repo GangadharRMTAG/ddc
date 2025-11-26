@@ -7,5 +7,7 @@
         <file>Singletons/Styles.qml</file>
         <file>Components/Splashscreen.qml</file>
         <file>Pages/TopBar.qml</file>
+        <file>Components/AppText.qml</file>
+        <file>Components/SafetyAreaBtn.qml</file>
     </qresource>
 </RCC>
