@@ -2,8 +2,8 @@
 #define COMMONLIB_GLOBAL_H
 
 #include <QtCore/qglobal.h>
-#define APP_NAME            "DCC"
-#define ORG_NAME            "DCC"
+#define APP_NAME            "DDC"
+#define ORG_NAME            "DDC"
 
 #define COMMON_LIBRARY
 #if defined(COMMON_LIBRARY)

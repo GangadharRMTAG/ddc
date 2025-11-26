@@ -17,9 +17,9 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("isPortrait", QStringLiteral(ORIENTATION) == "PORTRAIT" ? true : false);
     qmlRegisterSingletonType(QUrl("qrc:///Singletons/Styles.qml"), "Styles", 1, 0, "Styles");
 
-    cLogger::instance().init("DCC_LOG");
-    cLogger::instance().setLoggerLevel(QtDebugMsg,"DCC");
-    cLogger::instance().setLoggerLevel(QtWarningMsg,"DCC");
+    cLogger::instance().init("DDC_LOG");
+    cLogger::instance().setLoggerLevel(QtDebugMsg,"DDC");
+    cLogger::instance().setLoggerLevel(QtWarningMsg,"DDC");
 
     QObject::connect(
         &engine,
