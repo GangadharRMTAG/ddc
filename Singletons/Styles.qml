@@ -1,6 +1,7 @@
 pragma Singleton
 import QtQuick
 
+
 Item {
     id: _styles
 
@@ -17,6 +18,7 @@ Item {
         property color fileIconOpen: "#00A3FF"
         property color valGreen: "#008900"
         property color charcolNavy: "#1b2736"
+        property color charcolBlue: "#3b3f56"
 
         //Text
         property color textDark: "#061D3E"

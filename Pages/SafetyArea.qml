@@ -8,42 +8,42 @@ Item {
     id: root
     ListModel {
         id: buttonModel
-        ListElement { text: "H" }
-        ListElement { text: "H" }
-        ListElement { text: "H" }
-        ListElement { text: "H" }
-        ListElement { text: "H" }
-        ListElement { text: "H" }
+        ListElement { icon: "qrc:/Images/SafetyArea/iso.png";   selectedIcon: "qrc:/Images/SafetyArea/H.png" }
+        ListElement { icon: "qrc:/Images/SafetyArea/bdsl.png";  selectedIcon: "qrc:/Images/SafetyArea/bdsl.png" }
+        ListElement { icon: "qrc:/Images/SafetyArea/creep.png"; selectedIcon: "qrc:/Images/SafetyArea/creep.png" }
+        ListElement { icon: "" ;                                selectedIcon: ""}
+        ListElement { icon: "" ;                                selectedIcon: ""}
+        ListElement { icon: "" ;                                selectedIcon: ""}
     }
 
     Loader {
         id: orientationLoader
         anchors.centerIn: parent
         active: true
-        sourceComponent: isPortrait ? verticalLayout : horizontalLayout
+        sourceComponent: isPortrait ?  potraitLayout : landscapeLayout
     }
 
     Component {
-        id: verticalLayout
+        id: potraitLayout
         Row {
             anchors.centerIn: parent
             Repeater {
                 model: buttonModel
                 SafetyAreaBtn {
-                    text: model.text
+                    source:  barOn ? model.selectedIcon :  model.icon
                 }
             }
         }
     }
 
     Component {
-        id: horizontalLayout
+        id: landscapeLayout
         Column {
             anchors.centerIn: parent
             Repeater {
                 model: buttonModel
                 SafetyAreaBtn {
-                    text: model.text
+                    source:  barOn ? model.selectedIcon :  model.icon
                 }
             }
         }

@@ -8,7 +8,7 @@ Item {
     width: 65
     height: 65
 
-    property alias text: label.text
+    property alias source: iconImage.source
     property bool selected: false
     signal clicked()
     property bool barOn: false
@@ -18,35 +18,40 @@ Item {
         anchors.margins: 2
         anchors.fill: parent
         radius: 6
-        color: "#3b3f56"
-    }
+        color: Styles.color.charcolBlue
+        Rectangle {
+            height: tile.height - (progressBar.height * 2)
+            width: tile.width
+            color: Styles.color.transparent
+            Image {
+                id: iconImage
+                width: tile.height*0.8
+                height: tile.width*0.8
+                anchors.centerIn: parent
+            }
+        }
 
-    AppText {
-        id: label
-        text: "H"
-        color: Styles.color.lightBackground
-        font.pixelSize: 30
-        anchors.centerIn: parent
-        horizontalAlignment: Text.AlignHCenter
-    }
+        Rectangle {
+            id: progressBar
+            width: tile.width*0.8
+            height: tile.height/10
+            radius: height / 2
+            color: root.barOn ? Styles.color.lightBackground : Styles.color.pureBlack
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                bottom: parent.bottom
+                bottomMargin: tile.height/10
+            }
+        }
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
 
-    Rectangle {
-        id: progressBar
-        width: 50
-        height: 6
-        radius: height / 2
-        color: root.barOn ?Styles.color.lightBackground: Styles.color.pureBlack
-        anchors{ horizontalCenter:parent.horizontalCenter; bottom:parent.bottom; bottomMargin:7 }
-    }
-
-    MouseArea {
-        anchors.fill: parent
-        hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
-
-        onClicked: {
-            root.barOn = !root.barOn
-            root.clicked()
+            onClicked: {
+                root.barOn = !root.barOn
+                root.clicked()
+            }
         }
     }
 }

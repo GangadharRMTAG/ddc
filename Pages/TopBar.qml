@@ -1,38 +1,39 @@
 // TopBar.qml
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
+import Styles 1.0
 
 Item {
     id: root
     ListModel {
         id: buttonModel
-        ListElement { icon: "qrc:/Images/stop.png" }
-        ListElement { icon: "qrc:/Images/cautation.png" }
-        ListElement { icon: "qrc:/Images/seatBelt.png" }
-        ListElement { icon: "qrc:/Images/parkBrake.png" }
-        ListElement { icon: "qrc:/Images/workLamp.png" }
-        ListElement { icon: "qrc:/Images/beacon.png" }
-        ListElement { icon: "qrc:/Images/regeneration.png" }
-        ListElement { icon: "qrc:/Images/greedHeater.png" }
-        ListElement { icon: "qrc:/Images/hydraulicLock.png" }
-        ListElement { icon: "qrc:/Images/footPedal.png" }
+        ListElement { icon: "qrc:/Images/TopBar/stop.png" }
+        ListElement { icon: "qrc:/Images/TopBar/cautation.png" }
+        ListElement { icon: "qrc:/Images/TopBar/seatBelt.png" }
+        ListElement { icon: "qrc:/Images/TopBar/parkBrake.png" }
+        ListElement { icon: "qrc:/Images/TopBar/workLamp.png" }
+        ListElement { icon: "qrc:/Images/TopBar/beacon.png" }
+        ListElement { icon: "qrc:/Images/TopBar/regeneration.png" }
+        ListElement { icon: "qrc:/Images/TopBar/greedHeater.png" }
+        ListElement { icon: "qrc:/Images/TopBar/hydraulicLock.png" }
+        ListElement { icon: "qrc:/Images/TopBar/footPedal.png" }
     }
 
     Rectangle {
         id: topbar
         anchors.fill: parent
-        color: "transparent"
+        color: Styles.color.transparent
 
         Loader {
             id: orientationLoader
             anchors.centerIn: parent
             active: true
-            sourceComponent: isPortrait ? horizontalLayout : verticalLayout
+            sourceComponent: isPortrait ? potraitLayout : landscapeLayout
         }
     }
 
     Component {
-        id: horizontalLayout
+        id: potraitLayout
 
         Row {
             anchors.centerIn: parent
@@ -57,7 +58,7 @@ Item {
     }
 
     Component {
-        id: verticalLayout
+        id: landscapeLayout
 
         Column {
             anchors.centerIn: parent
