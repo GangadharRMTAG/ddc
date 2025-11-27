@@ -8,7 +8,7 @@
         <file>Components/Splashscreen.qml</file>
         <file>Pages/TopBar.qml</file>
         <file>Components/AppText.qml</file>
-        <file>Components/SafetyAreaBtn.qml</file>
+        <file>Components/SafetyButton.qml</file>
         <file>Pages/SafetyArea.qml</file>
         <file>Pages/NavigationBar.qml</file>
         <file>Pages/GuagesArea.qml</file>

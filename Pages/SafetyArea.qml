@@ -29,8 +29,8 @@ Item {
             anchors.centerIn: parent
             Repeater {
                 model: buttonModel
-                SafetyAreaBtn {
-                    source:  barOn ? model.selectedIcon :  model.icon
+                SafetyButton {
+                    source:  selected ? model.selectedIcon :  model.icon
                 }
             }
         }
@@ -42,8 +42,8 @@ Item {
             anchors.centerIn: parent
             Repeater {
                 model: buttonModel
-                SafetyAreaBtn {
-                    source:  barOn ? model.selectedIcon :  model.icon
+                SafetyButton {
+                    source:  selected ? model.selectedIcon :  model.icon
                 }
             }
         }

@@ -73,23 +73,23 @@ Item {
                 anchors{verticalCenter: parent.verticalCenter; right: parent.right;rightMargin: navigationBarRectP.height * 0.1}
                 spacing: 3
                 visible: isMenuSelected
-                SafetyAreaBtn {
+                SafetyButton {
                     id: autoRideControlBtnP
                     height: navigationBarRectP.height * 0.8
                     width: navigationBarRectP.height * 0.8
                     source:  "qrc:/Images/NavigationBar/ARC.png"
                 }
-                SafetyAreaBtn {
+                SafetyButton {
                     id :autoIdleBtnP
                     height: navigationBarRectP.height * 0.8
                     width: navigationBarRectP.height * 0.8
                     source:  "qrc:/Images/NavigationBar/AutoIdle.png"
                 }
-                SafetyAreaBtn {
+                SafetyButton {
                     id: ezehBtnP
                     height: navigationBarRectP.height * 0.8
                     width: navigationBarRectP.height * 0.8
-                    showProgressBar: false
+                    showHighlightBar: false
                     source: ezehLevels[ezehSelected]
                     onClicked: {
                         if(ezehSelected === 3)
@@ -152,23 +152,23 @@ Item {
                 anchors{horizontalCenter: parent.horizontalCenter; bottom: parent.bottom;bottomMargin: navigationBarRectL.width * 0.1}
                 spacing: 3
                 visible: isMenuSelected
-                SafetyAreaBtn {
+                SafetyButton {
                     id: autoRideControlBtnL
                     height: navigationBarRectL.width * 0.8
                     width: navigationBarRectL.width * 0.8
                     source:  "qrc:/Images/NavigationBar/ARC.png"
                 }
-                SafetyAreaBtn {
+                SafetyButton {
                     id :autoIdleBtnL
                     height: navigationBarRectL.width * 0.8
                     width: navigationBarRectL.width * 0.8
                     source:  "qrc:/Images/NavigationBar/AutoIdle.png"
                 }
-                SafetyAreaBtn {
+                SafetyButton {
                     id: ezehBtnL
                     height: navigationBarRectL.width * 0.8
                     width: navigationBarRectL.width * 0.8
-                    showProgressBar: false
+                    showHighlightBar: false
                     source: ezehLevels[ezehSelected]
                     onClicked: {
                         if(ezehSelected === 3)
