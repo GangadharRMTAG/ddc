@@ -11,6 +11,8 @@ Window {
     color : Styles.color.charcolNavy
     title: qsTr("CASE CONSTRUCTION")
 
+    property bool isHomescreen: true
+
     Splashscreen{
         id: mainSplashscreen
         z:99

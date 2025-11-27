@@ -7,8 +7,6 @@ Item {
     id: portraitMain
     anchors.fill: parent
 
-    property bool isHomescreen: true
-
     Column{
         anchors.fill: parent
         TopBar {
@@ -24,20 +22,20 @@ Item {
         Loader{
             height: portraitMain.height * 0.7
             width: portraitMain.width
-            sourceComponent: isHomescreen ? homescreenComp : settingsComp
+            sourceComponent: mainWindow.isHomescreen ? homescreenCompP : settingsCompP
         }
         NavigationBar{
             id: navigationBarP
             height: parent.height * 0.1
             width: parent.width
             onIsMenuSelectedChanged: {
-                isHomescreen = isMenuSelected
+                mainWindow.isHomescreen = isMenuSelected
             }
         }
     }
 
     Component {
-        id: homescreenComp
+        id: homescreenCompP
         Column {
             GuagesArea{
                 id: guageArea
@@ -53,7 +51,7 @@ Item {
     }
 
     Component {
-        id: settingsComp
+        id: settingsCompP
         Column {
             Rectangle {
                 width: 40

@@ -23,5 +23,6 @@
         <file>Images/NavigationBar/EZEHHigh.png</file>
         <file>Images/NavigationBar/EZEHLow.png</file>
         <file>Images/NavigationBar/EZEHMid.png</file>
+        <file>Images/NavigationBar/Home.png</file>
     </qresource>
 </RCC>
