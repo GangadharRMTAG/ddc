@@ -1,0 +1,58 @@
+import QtQuick
+import QtQuick.Controls
+import Styles 1.0
+import "../Components"
+
+Item {
+    id: root
+    width: 65
+    height: 65
+
+    property alias source: iconImage.source
+    property bool selected: false
+    signal clicked()
+    property bool showHighlightBar: true
+
+    Rectangle {
+        id: tile
+        anchors.margins: 2
+        anchors.fill: parent
+        radius: 6
+        color: Styles.color.charcolBlue
+        Rectangle {
+            height: tile.height - (progressBar.height * 2)
+            width: tile.width
+            color: Styles.color.transparent
+            Image {
+                id: iconImage
+                width: tile.height*0.8
+                height: tile.width*0.8
+                anchors.centerIn: parent
+            }
+        }
+
+        Rectangle {
+            id: progressBar
+            width: tile.width*0.8
+            height: tile.height/10
+            radius: height / 2
+            color: root.selected ? Styles.color.lightBackground : Styles.color.pureBlack
+            visible: showHighlightBar
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                bottom: parent.bottom
+                bottomMargin: tile.height/10
+            }
+        }
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+
+            onClicked: {
+                root.selected = !root.selected
+                root.clicked()
+            }
+        }
+    }
+}
