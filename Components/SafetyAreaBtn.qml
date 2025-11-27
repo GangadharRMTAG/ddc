@@ -12,6 +12,7 @@ Item {
     property bool selected: false
     signal clicked()
     property bool barOn: false
+    property bool showProgressBar: true
 
     Rectangle {
         id: tile
@@ -37,6 +38,7 @@ Item {
             height: tile.height/10
             radius: height / 2
             color: root.barOn ? Styles.color.lightBackground : Styles.color.pureBlack
+            visible: showProgressBar
             anchors {
                 horizontalCenter: parent.horizontalCenter
                 bottom: parent.bottom

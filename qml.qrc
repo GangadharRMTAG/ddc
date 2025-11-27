@@ -10,5 +10,8 @@
         <file>Components/AppText.qml</file>
         <file>Components/SafetyAreaBtn.qml</file>
         <file>Pages/SafetyArea.qml</file>
+        <file>Pages/NavigationBar.qml</file>
+        <file>Pages/GuagesArea.qml</file>
+        <file>Pages/WidgetsArea.qml</file>
     </qresource>
 </RCC>

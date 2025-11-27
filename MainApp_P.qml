@@ -4,18 +4,63 @@ import "./Pages"
 import "./Components"
 
 Item {
+    id: portraitMain
+    anchors.fill: parent
 
-       anchors.fill: parent
-       TopBar {
-              id: topBarP
-              height: parent.height / 10
-              width: parent.width
-              anchors{top: parent.top}
-       }
-       SafetyArea{
-              id: safetyAreaP
-              height:  parent.height /10
-              width:   parent.width
-              anchors{ top: topBarP.bottom;}
-       }
+    property bool isHomescreen: true
+
+    Column{
+        anchors.fill: parent
+        TopBar {
+            id: topBarP
+            height: portraitMain.height * 0.1
+            width: portraitMain.width
+        }
+        SafetyArea{
+            id: safetyAreaP
+            height:  portraitMain.height * 0.1
+            width:   portraitMain.width
+        }
+        Loader{
+            height: portraitMain.height * 0.7
+            width: portraitMain.width
+            sourceComponent: isHomescreen ? homescreenComp : settingsComp
+        }
+        NavigationBar{
+            id: navigationBarP
+            height: parent.height * 0.1
+            width: parent.width
+            onIsMenuSelectedChanged: {
+                isHomescreen = isMenuSelected
+            }
+        }
+    }
+
+    Component {
+        id: homescreenComp
+        Column {
+            GuagesArea{
+                id: guageArea
+                height: portraitMain.height * 0.2
+                width: portraitMain.width
+            }
+            WidgetsArea{
+                id: widgetArea
+                height: portraitMain.height * 0.5
+                width: portraitMain.width
+            }
+        }
+    }
+
+    Component {
+        id: settingsComp
+        Column {
+            Rectangle {
+                width: 40
+                height: 40
+                radius: 6
+                color: "red"
+            }
+        }
+    }
 }

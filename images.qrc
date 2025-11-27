@@ -15,5 +15,13 @@
         <file>Images/TopBar/stop.png</file>
         <file>Images/TopBar/workLamp.png</file>
         <file>Images/CASE_logo.png</file>
+        <file>Images/NavigationBar/BackBtn.png</file>
+        <file>Images/NavigationBar/BurgerMenu.png</file>
+        <file>Images/NavigationBar/ARC.png</file>
+        <file>Images/NavigationBar/AutoIdle.png</file>
+        <file>Images/NavigationBar/EZEHCustom.png</file>
+        <file>Images/NavigationBar/EZEHHigh.png</file>
+        <file>Images/NavigationBar/EZEHLow.png</file>
+        <file>Images/NavigationBar/EZEHMid.png</file>
     </qresource>
 </RCC>
