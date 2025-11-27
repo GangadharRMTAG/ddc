@@ -37,7 +37,7 @@ Item {
     Component {
         id: homescreenCompP
         Column {
-            GuagesArea{
+            GaugesArea{
                 id: guageArea
                 height: portraitMain.height * 0.2
                 width: portraitMain.width

@@ -37,7 +37,7 @@ Item {
     Component {
         id: homescreenCompL
         Row {
-            GuagesArea{
+            GaugesArea{
                 id: guageArea
                 height: landscapeMain.height
                 width: landscapeMain.width * 0.2

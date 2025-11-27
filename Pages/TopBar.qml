@@ -1,10 +1,9 @@
-// TopBar.qml
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
 import Styles 1.0
 
 Item {
-    id: root
+    id: topBar
     ListModel {
         id: buttonModel
         ListElement { icon: "qrc:/Images/TopBar/stop.png" }
@@ -20,7 +19,7 @@ Item {
     }
 
     Rectangle {
-        id: topbar
+        id: topbarRect
         anchors.fill: parent
         color: Styles.color.transparent
 
