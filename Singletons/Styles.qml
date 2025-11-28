@@ -19,6 +19,9 @@ Item {
         property color valGreen: "#008900"
         property color charcolNavy: "#1b2736"
         property color charcolBlue: "#3b3f56"
+        property color background: "#2d3249"
+        property color darkBackground: "#1f2437"
+        property color warningRed: "#ff0000"
 
         //Text
         property color textDark: "#061D3E"

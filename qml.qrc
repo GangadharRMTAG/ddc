@@ -13,5 +13,7 @@
         <file>Pages/NavigationBar.qml</file>
         <file>Pages/GaugesArea.qml</file>
         <file>Pages/WidgetsArea.qml</file>
+        <file>Components/CurvedRectangle.qml</file>
+        <file>Components/GaugeInfoBtn.qml</file>
     </qresource>
 </RCC>

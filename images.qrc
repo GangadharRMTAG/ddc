@@ -31,5 +31,11 @@
         <file>Images/WidgetArea/SpeedMeater.png</file>
         <file>Images/WidgetArea/TripInfo.png</file>
         <file>Images/WidgetArea/Idel.png</file>
+        <file>Images/GaugesArea/BatteryVoltage_W.png</file>
+        <file>Images/GaugesArea/DefLevel_W.png</file>
+        <file>Images/GaugesArea/EngineCoolant_W.png</file>
+        <file>Images/GaugesArea/FuelLevel_R.png</file>
+        <file>Images/GaugesArea/HydraulicOil_W.png</file>
+        <file>Images/GaugesArea/Background.png</file>
     </qresource>
 </RCC>
