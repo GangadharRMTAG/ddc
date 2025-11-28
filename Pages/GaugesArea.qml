@@ -125,7 +125,62 @@ Item {
         id: landscapeLayout
         Rectangle {
             anchors.fill: parent
-            color: Styles.color.transparent
+            color: Styles.color.background
+            Rectangle {
+                width: parent.width
+                height: parent.height * 0.9
+                anchors.verticalCenter: parent.verticalCenter
+                color: Styles.color.transparent
+                Column{
+                    anchors.fill: parent
+                    Rectangle{
+                        height: parent.height/6
+                        width: parent.width
+                        color: Styles.color.background
+                        Image {
+                            height: parent.height * 0.7
+                            width: parent.width * 0.7
+                            anchors.centerIn: parent
+                            source: "qrc:/Images/CASE_logo.png"
+                        }
+                    }
+                    GaugeInfoBtn{
+                        height: parent.height/6
+                        width: parent.width
+                        sourceImg: "qrc:/Images/GaugesArea/FuelLevel_R.png"
+                        indicatorPos: 0
+                        indicatorVal: 1
+                    }
+                    GaugeInfoBtn{
+                        height: parent.height/6
+                        width: parent.width
+                        sourceImg: "qrc:/Images/GaugesArea/EngineCoolant_W.png"
+                        indicatorPos: 1
+                        indicatorVal: 3
+                    }
+                    GaugeInfoBtn{
+                        height: parent.height/6
+                        width: parent.width
+                        sourceImg: "qrc:/Images/GaugesArea/DefLevel_W.png"
+                        indicatorPos: 0
+                        indicatorVal: 4
+                    }
+                    GaugeInfoBtn{
+                        height: parent.height/6
+                        width: parent.width
+                        sourceImg: "qrc:/Images/GaugesArea/BatteryVoltage_W.png"
+                        indicatorPos: 2
+                        indicatorVal: 3
+                    }
+                    GaugeInfoBtn{
+                        height: parent.height/6
+                        width: parent.width
+                        sourceImg: "qrc:/Images/GaugesArea/HydraulicOil_W.png"
+                        indicatorPos: 1
+                        indicatorVal: 3
+                    }
+                }
+            }
         }
     }
 }

@@ -40,12 +40,12 @@ Item {
             GaugesArea{
                 id: guageArea
                 height: landscapeMain.height
-                width: landscapeMain.width * 0.2
+                width: landscapeMain.width * 0.15
             }
             WidgetsArea{
                 id: widgetArea
                 height: landscapeMain.height
-                width: landscapeMain.width * 0.5
+                width: landscapeMain.width * 0.55
             }
         }
     }
