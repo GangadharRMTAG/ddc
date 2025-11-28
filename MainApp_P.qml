@@ -11,8 +11,9 @@ Item {
         anchors.fill: parent
         TopBar {
             id: topBarP
+            anchors.horizontalCenter: parent.horizontalCenter
             height: portraitMain.height * 0.1
-            width: portraitMain.width
+            width: portraitMain.width * 0.98
         }
         SafetyArea{
             id: safetyAreaP

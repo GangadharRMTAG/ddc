@@ -40,15 +40,14 @@ Item {
             Repeater {
                 model: buttonModel
                 Rectangle {
-                    width: 40
-                    height: 40
-                    radius: 6
+                    height: topbarRect.height
+                    width: topbarRect.width/10
                     color: "transparent"
                     Image {
                         anchors.centerIn: parent
                         source: model.icon
-                        width: 40
-                        height: 40
+                        width: parent.width * 0.8
+                        height: parent.height * 0.8
                         fillMode: Image.PreserveAspectFit
                     }
                 }
@@ -64,15 +63,15 @@ Item {
             Repeater {
                 model: buttonModel
                 Rectangle {
-                    width: 40
-                    height: 40
+                    height: topbarRect.height/10
+                    width: topbarRect.width
                     radius: 6
                     color: "transparent"
                     Image {
                         anchors.centerIn: parent
                         source: model.icon
-                        width: 40
-                        height: 40
+                        width: parent.width * 0.8
+                        height: parent.height * 0.8
                         fillMode: Image.PreserveAspectFit
                     }
                 }

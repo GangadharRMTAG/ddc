@@ -5,7 +5,7 @@ import Styles 1.0
 import "../Components"
 
 Item {
-    id: root
+    id: safetyArea
     ListModel {
         id: buttonModel
         ListElement { icon: "qrc:/Images/SafetyArea/iso.png";   selectedIcon: "qrc:/Images/SafetyArea/H.png" }
@@ -30,6 +30,8 @@ Item {
             Repeater {
                 model: buttonModel
                 SafetyButton {
+                    height: safetyArea.height
+                    width:  safetyArea.width * 0.16
                     source:  selected ? model.selectedIcon :  model.icon
                 }
             }
@@ -43,6 +45,8 @@ Item {
             Repeater {
                 model: buttonModel
                 SafetyButton {
+                    height: safetyArea.height * 0.16
+                    width:  safetyArea.width
                     source:  selected ? model.selectedIcon :  model.icon
                 }
             }

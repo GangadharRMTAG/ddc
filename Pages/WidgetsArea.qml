@@ -58,8 +58,8 @@ Rectangle {
         Repeater {
             model: buttonModel
             delegate: SafetyButton {
-                height: 60
-                width: 60
+                height: isPortrait ? widgetArea.height * 0.18 : widgetArea.height * 0.16
+                width: isPortrait ?  widgetArea.width *  0.18 :  widgetArea.width* 0.16
                 showHighlightBar: false
                 source: icon
                 onClicked: {
@@ -73,8 +73,9 @@ Rectangle {
         id: widgetBackground
         x: 0
         y: buttonsRow.height
-        width: parent.width
+        width: isPortrait ? parent.width * 1.05 : parent.width
         height: parent.height - buttonsRow.height
+        anchors.horizontalCenter: parent.horizontalCenter
         color: Styles.color.darkSlate
     }
 
