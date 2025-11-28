@@ -4,7 +4,7 @@ import Styles 1.0
 import "../Components"
 
 Item {
-    id: root
+    id: safetyButton
     width: 65
     height: 65
 
@@ -12,13 +12,14 @@ Item {
     property bool selected: false
     signal clicked()
     property bool showHighlightBar: true
+    property bool buttonHighlight: false
 
     Rectangle {
         id: tile
         anchors.margins: 2
         anchors.fill: parent
         radius: 6
-        color: Styles.color.charcolBlue
+        color:buttonHighlight ? Styles.color.lavenderGray : Styles.color.charcolBlue
         Rectangle {
             height: tile.height - (progressBar.height * 2)
             width: tile.width
@@ -36,7 +37,7 @@ Item {
             width: tile.width*0.8
             height: tile.height/10
             radius: height / 2
-            color: root.selected ? Styles.color.lightBackground : Styles.color.pureBlack
+            color: safetyButton.selected ? Styles.color.lightBackground : Styles.color.pureBlack
             visible: showHighlightBar
             anchors {
                 horizontalCenter: parent.horizontalCenter
@@ -50,8 +51,8 @@ Item {
             cursorShape: Qt.PointingHandCursor
 
             onClicked: {
-                root.selected = !root.selected
-                root.clicked()
+                safetyButton.selected = !safetyButton.selected
+                safetyButton.clicked()
             }
         }
     }

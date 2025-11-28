@@ -39,6 +39,13 @@ Item {
         property color periodicTableBackgroundColor: "#4F8E8F"
         property color dialogBackground: "#B2B6B7"
         property color toolTipBackground: "#E8213036"
+        property color lavenderGray: "#D4D7E5"
+        property color midnightBlue: "#0B0E18"
+        property color darkSlate: "#2A304B"
+        property color slateBlue: "#424761"
+        property color mistBlue: "#626786"
+        property color nightIndigo: "#211F30"
+        property color mistLavender: "#C3C6D7"
 
     }
 

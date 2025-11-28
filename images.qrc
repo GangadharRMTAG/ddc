@@ -24,5 +24,12 @@
         <file>Images/NavigationBar/EZEHLow.png</file>
         <file>Images/NavigationBar/EZEHMid.png</file>
         <file>Images/NavigationBar/Home.png</file>
+        <file>Images/WidgetArea/CameraView.png</file>
+        <file>Images/WidgetArea/Climate.png</file>
+        <file>Images/WidgetArea/MachineInfo.png</file>
+        <file>Images/WidgetArea/Radio.png</file>
+        <file>Images/WidgetArea/SpeedMeater.png</file>
+        <file>Images/WidgetArea/TripInfo.png</file>
+        <file>Images/WidgetArea/Idel.png</file>
     </qresource>
 </RCC>
