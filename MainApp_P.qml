@@ -55,13 +55,8 @@ Item {
 
     Component {
         id: settingsCompP
-        Column {
-            Rectangle {
-                width: 40
-                height: 40
-                radius: 6
-                color: "red"
-            }
+        Menu {
+            anchors.fill: parent
         }
     }
 }
