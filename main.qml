@@ -1,3 +1,10 @@
+/**
+ * @file main.qml
+ * @brief Main entry point for the CASE CONSTRUCTION application UI.
+ *
+ * This QML file sets up the main application window, handles orientation-based layout loading,
+ * and displays a splash screen on startup.
+ */
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import Styles 1.0
@@ -11,11 +18,18 @@ Window {
     color : Styles.color.charcolNavy
     title: qsTr("CASE CONSTRUCTION")
 
+    /**
+     * @property isHomescreen
+     * @brief Indicates if the current screen is the home screen.
+     */
     property bool isHomescreen: true
 
-    Splashscreen{
+    /**
+     * @brief Splash screen overlay displayed on startup.
+     */
+    Splashscreen {
         id: mainSplashscreen
-        z:99
+        z: 99
         anchors.fill: parent
     }
     Loader{
@@ -29,7 +43,10 @@ Window {
         console.log("Component.onCompleted in main.qml End")
     }
 
-    Timer{
+    /**
+     * @brief Timer to hide the splash screen after a delay.
+     */
+    Timer {
         id: splashTimer
         interval: 1000
         repeat: false
@@ -37,5 +54,4 @@ Window {
             mainSplashscreen.visible = false
         }
     }
-
 }

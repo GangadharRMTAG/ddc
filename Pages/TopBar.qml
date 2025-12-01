@@ -1,9 +1,23 @@
+/**
+ * @file TopBar.qml
+ * @brief Top bar indicator area for CASE CONSTRUCTION UI.
+ *
+ * This QML file provides a responsive top bar with status icons, supporting both
+ * portrait and landscape layouts. Icons are dynamically generated from a model.
+ */
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
 import Styles 1.0
 
 Item {
     id: topBar
+
+    /**
+     * @brief Model for top bar status icons.
+     *
+     * Each element contains:
+     *   - icon: Icon image URL
+     */
     ListModel {
         id: buttonModel
         ListElement { icon: "qrc:/Images/TopBar/stop.png" }
@@ -23,16 +37,25 @@ Item {
         anchors.fill: parent
         color: Styles.color.transparent
 
+        /**
+         * @brief Loader for switching between portrait and landscape layouts.
+         *
+         * Loads the appropriate layout based on the isPortrait property.
+         */
         Loader {
             id: orientationLoader
             anchors.centerIn: parent
             active: true
-            sourceComponent: isPortrait ? potraitLayout : landscapeLayout
+            sourceComponent: isPortrait ? portraitLayout : landscapeLayout
         }
     }
 
+
+    /**
+     * @brief Portrait layout for the top bar.
+     */
     Component {
-        id: potraitLayout
+        id: portraitLayout
 
         Row {
             anchors.centerIn: parent
@@ -55,6 +78,10 @@ Item {
         }
     }
 
+
+    /**
+     * @brief Landscape layout for the top bar.
+     */
     Component {
         id: landscapeLayout
 

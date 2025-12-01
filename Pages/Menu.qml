@@ -9,8 +9,23 @@ Column {
     anchors.fill: parent
     spacing: 0
 
+
+    /**
+     * @property designWidth
+     * @brief Reference width for UI scaling.
+     */
     property real designWidth: 360
+
+    /**
+     * @property uiScale
+     * @brief UI scale factor based on current width.
+     */
     property real uiScale: Math.max(0.5, settingsMenuRoot.width / designWidth)
+
+    /**
+     * @property selectedIndex
+     * @brief Index of the currently selected menu item.
+     */
     property int selectedIndex: -1
 
     Rectangle {
@@ -59,6 +74,14 @@ Column {
             }
         }
 
+
+        /**
+         * @brief Model for settings menu items.
+         *
+         * Each element contains:
+         *   - title: Menu item title
+         *   - iconSource: Icon image URL
+         */
         ListModel {
             id: settingsModel
             ListElement { title: "Machine Service"; iconSource:  "qrc:/Images/SettingsPage/machineLerning.png" }

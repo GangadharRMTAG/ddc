@@ -1,47 +1,54 @@
+/**
+ * @file FlatButton.qml
+ * @brief Flat button component for CASE CONSTRUCTION UI.
+ *
+ * This QML file provides a scalable, stylable flat button with optional icon and arrow,
+ * used for menu and list navigation.
+ */
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
 import Styles 1.0
 
-/*!
- * \qmltype FlatButton
- * \brief A scalable, customizable flat button with icon, text, and optional arrow.
- *
- * FlatButton provides a button component that supports an icon, a text label, and an optional arrow indicator.
- * The button responds visually to hover and press events, and emits a \c clicked() signal when activated.
- * All sizing and spacing are scaled according to the button's width for responsive design.
- *
- * \section FlatButton_Properties Properties
- * \li \c title (string): The text label displayed on the button.
- * \li \c iconSource (string): The source path for the icon image.
- * \li \c isArrow (bool): Whether to display the arrow indicator (default: true).
- * \li \c designWidth (real): Reference width for scaling.
- *
- * \section FlatButton_Signals Signals
- * \li \c clicked(): Emitted when the button is clicked.
- *
- * \section FlatButton_Example Example Usage
- * \qml
- * FlatButton {
- *     title: "Settings"
- *     iconSource: "qrc:/icons/settings.svg"
- *     isArrow: false
- *     onClicked: console.log("Settings button clicked")
- * }
- * \endqml
- */
 
 Rectangle {
     id: flatBtn
     width: parent ? parent.width : 360
     height: rowItem.height + divider.height
 
-    property string title: ""   
-    property string iconSource: ""      
-    property bool isArrow: true       
-    signal clicked()                    
+    /**
+     * @property title
+     * @brief Button label text.
+     */
+    property string title: ""
 
-    property real  designWidth: 360  
+    /**
+     * @property iconSource
+     * @brief URL for the button icon image.
+     */
+    property string iconSource: ""
 
+    /**
+     * @property isArrow
+     * @brief Whether to show the arrow indicator on the right.
+     */
+    property bool isArrow: true
+
+    /**
+     * @signal clicked
+     * @brief Emitted when the button is clicked.
+     */
+    signal clicked()
+
+    /**
+     * @property designWidth
+     * @brief Reference width for UI scaling.
+     */
+    property real designWidth: 360
+
+    /**
+     * @property uiScale
+     * @brief UI scale factor based on current width.
+     */
     property real uiScale: {
         var s = flatBtn.width / designWidth;
         if (s < 0.6) s = 0.6;

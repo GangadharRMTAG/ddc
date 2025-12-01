@@ -1,30 +1,50 @@
+/**
+ * @file MainApp_L.qml
+ * @brief Landscape main application UI for CASE CONSTRUCTION.
+ *
+ * This QML file defines the main layout for landscape orientation, organizing the
+ * top bar, safety area, navigation bar, and main content area. It dynamically loads
+ * the home screen or settings screen based on the application state.
+ */
 import QtQuick 2.12
 import Styles 1.0
 import "./Pages"
 import "./Components"
 
+
 Item {
     id: landscapeMain
     anchors.fill: parent
 
-    Row{
+    /**
+     * @brief Main horizontal layout row.
+     *
+     * Contains the top bar, safety area, main content loader, and navigation bar.
+     */
+    Row {
         anchors.fill: parent
         TopBar {
             id: topBarL
             height: parent.height
-            width:  parent.width * 0.1
+            width: parent.width * 0.1
         }
-        SafetyArea{
+        SafetyArea {
             id: safetyAreaL
             height: parent.height
-            width:  parent.width * 0.1
+            width: parent.width * 0.1
         }
-        Loader{
+
+        /**
+         * @brief Loader for main content area.
+         *
+         * Loads either the home screen or settings screen based on mainWindow.isHomescreen.
+         */
+        Loader {
             height: landscapeMain.height
             width: landscapeMain.width * 0.7
             sourceComponent: mainWindow.isHomescreen ? homescreenCompL : settingsCompL
         }
-        NavigationBar{
+        NavigationBar {
             id: navigationBarL
             height: parent.height
             width: parent.width * 0.1
@@ -34,15 +54,18 @@ Item {
         }
     }
 
+    /**
+     * @brief Home screen component for landscape mode.
+     */
     Component {
         id: homescreenCompL
         Row {
-            GaugesArea{
+            GaugesArea {
                 id: guageArea
                 height: landscapeMain.height
                 width: landscapeMain.width * 0.15
             }
-            WidgetsArea{
+            WidgetsArea {
                 id: widgetArea
                 height: landscapeMain.height
                 width: landscapeMain.width * 0.55
@@ -50,6 +73,9 @@ Item {
         }
     }
 
+    /**
+     * @brief Settings screen component for landscape mode.
+     */
     Component {
         id: settingsCompL
         Menu {

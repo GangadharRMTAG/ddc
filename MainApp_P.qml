@@ -1,3 +1,11 @@
+/**
+ * @file MainApp_P.qml
+ * @brief Portrait main application UI for CASE CONSTRUCTION.
+ *
+ * This QML file defines the main layout for portrait orientation, organizing the
+ * top bar, safety area, navigation bar, and main content area. It dynamically loads
+ * the home screen or settings screen based on the application state.
+ */
 import QtQuick 2.12
 import Styles 1.0
 import "./Pages"
@@ -7,7 +15,12 @@ Item {
     id: portraitMain
     anchors.fill: parent
 
-    Column{
+    /**
+     * @brief Main vertical layout column.
+     *
+     * Contains the top bar, safety area, main content loader, and navigation bar.
+     */
+    Column {
         anchors.fill: parent
         TopBar {
             id: topBarP
@@ -20,7 +33,12 @@ Item {
             height:  portraitMain.height * 0.1
             width:   portraitMain.width
         }
-        Loader{
+        /**
+         * @brief Loader for main content area.
+         *
+         * Loads either the home screen or settings screen based on mainWindow.isHomescreen.
+         */
+        Loader {
             height: portraitMain.height * 0.7
             width: portraitMain.width
             sourceComponent: mainWindow.isHomescreen ? homescreenCompP : settingsCompP
@@ -35,11 +53,14 @@ Item {
         }
     }
 
+    /**
+     * @brief Home screen component for portrait mode.
+     */
     Component {
         id: homescreenCompP
         Column {
             GaugesArea{
-                id: guageArea
+                id: gaugeArea
                 height: portraitMain.height * 0.2
                 width: portraitMain.width
             }
@@ -48,11 +69,13 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 height: portraitMain.height * 0.5
                 width: portraitMain.width * 0.9
-                source: "qrc:/Images/WidgetArea/Idel.png"
             }
         }
     }
 
+    /**
+     * @brief Settings screen component for portrait mode.
+     */
     Component {
         id: settingsCompP
         Menu {

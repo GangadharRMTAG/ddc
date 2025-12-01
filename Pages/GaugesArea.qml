@@ -1,3 +1,10 @@
+/**
+ * @file GaugesArea.qml
+ * @brief Gauges area for CASE CONSTRUCTION UI.
+ *
+ * This QML file provides a responsive area for displaying various machine gauges and indicators,
+ * supporting both portrait and landscape layouts. Uses custom components for modularity.
+ */
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
 import Styles 1.0
@@ -12,16 +19,25 @@ Item {
         anchors.fill: parent
         color: Styles.color.charcolNavy
 
+        /**
+         * @brief Loader for switching between portrait and landscape layouts.
+         *
+         * Loads the appropriate layout based on the isPortrait property.
+         */
         Loader {
             id: orientationLoader
             anchors.fill: parent
             active: true
-            sourceComponent: isPortrait ? potraitLayout : landscapeLayout
+            sourceComponent: isPortrait ? portraitLayout : landscapeLayout
         }
     }
 
+
+    /**
+     * @brief Portrait layout for the gauges area.
+     */
     Component {
-        id: potraitLayout
+        id: portraitLayout
         Rectangle {
             color: Styles.color.transparent
             Column{
@@ -121,6 +137,10 @@ Item {
 
     }
 
+
+    /**
+     * @brief Landscape layout for the gauges area.
+     */
     Component {
         id: landscapeLayout
         Rectangle {

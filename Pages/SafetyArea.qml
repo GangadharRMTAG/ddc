@@ -1,3 +1,11 @@
+/**
+ * @file SafetyArea.qml
+ * @brief Safety area indicator and control bar for CASE CONSTRUCTION UI.
+ *
+ * This QML file provides a responsive safety area with status buttons, supporting both
+ * portrait and landscape layouts. Icons are dynamically generated from a model and can
+ * display different images when selected.
+ */
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.15
@@ -6,6 +14,16 @@ import "../Components"
 
 Item {
     id: safetyArea
+
+    /**
+     * @brief Model for safety area status buttons.
+     *
+     * Each element contains:
+     *   - icon: Icon image URL (default)
+     *   - selectedIcon: Icon image URL when selected
+     *
+     * Empty elements are placeholders for future buttons.
+     */
     ListModel {
         id: buttonModel
         ListElement { icon: "qrc:/Images/SafetyArea/iso.png";   selectedIcon: "qrc:/Images/SafetyArea/H.png" }
@@ -16,6 +34,12 @@ Item {
         ListElement { icon: "" ;                                selectedIcon: ""}
     }
 
+
+    /**
+     * @brief Loader for switching between portrait and landscape layouts.
+     *
+     * Loads the appropriate layout based on the isPortrait property.
+     */
     Loader {
         id: orientationLoader
         anchors.centerIn: parent
@@ -23,6 +47,10 @@ Item {
         sourceComponent: isPortrait ?  potraitLayout : landscapeLayout
     }
 
+
+    /**
+     * @brief Portrait layout for the safety area.
+     */
     Component {
         id: potraitLayout
         Row {
@@ -38,6 +66,10 @@ Item {
         }
     }
 
+
+    /**
+     * @brief Landscape layout for the safety area.
+     */
     Component {
         id: landscapeLayout
         Column {

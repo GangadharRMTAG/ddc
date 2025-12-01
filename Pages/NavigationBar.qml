@@ -1,11 +1,34 @@
+/**
+ * @file NavigationBar.qml
+ * @brief Navigation bar for CASE CONSTRUCTION UI.
+ *
+ * This QML file provides a responsive navigation bar with menu, home, and control buttons,
+ * supporting both portrait and landscape layouts. The EZEH button cycles through multiple
+ * states, and the bar adapts its layout based on orientation.
+ */
 import QtQuick 2.15
 import Styles 1.0
 import "../Components"
 
 Item {
     id: navigationBar
+
+    /**
+     * @property isMenuSelected
+     * @brief Indicates if the menu is selected (shows menu or home button).
+     */
     property bool isMenuSelected: true
+
+    /**
+     * @property ezehSelected
+     * @brief Index of the currently selected EZEH level.
+     */
     property int ezehSelected: 0
+
+    /**
+     * @property ezehLevels
+     * @brief Array of EZEH level icon URLs.
+     */
     property var ezehLevels: [
         "qrc:/Images/NavigationBar/EZEHLow.png",
         "qrc:/Images/NavigationBar/EZEHMid.png",
@@ -17,11 +40,21 @@ Item {
         id: navigationBarRect
         anchors.fill: parent
         color: Styles.color.pureBlack
+
+        /**
+         * @brief Loader for switching between portrait and landscape layouts.
+         *
+         * Loads the appropriate layout based on the isPortrait property.
+         */
         Loader {
             anchors.fill: parent
             sourceComponent: isPortrait ? potraitLayout : landscapeLayout
         }
     }
+
+    /**
+     * @brief Portrait layout for the navigation bar.
+     */
     Component {
         id: potraitLayout
         Rectangle {
@@ -101,6 +134,10 @@ Item {
             }
         }
     }
+
+    /**
+     * @brief Landscape layout for the navigation bar.
+     */
     Component {
         id: landscapeLayout
         Rectangle {

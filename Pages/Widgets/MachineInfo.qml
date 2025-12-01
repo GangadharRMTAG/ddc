@@ -1,9 +1,25 @@
+/**
+ * @file MachineInfo.qml
+ * @brief Machine information display widget for CASE CONSTRUCTION UI.
+ *
+ * This QML file displays key machine information in a styled, responsive list.
+ */
 import QtQuick 2.12
 import Styles 1.0
+
+
 
 Item {
     id: machineInfo
 
+
+    /**
+     * @brief Model containing machine information fields.
+     *
+     * Each element contains:
+     *   - title: Field name
+     *   - value: Field value
+     */
     ListModel {
         id: machineInformation
         ListElement { title: "Machine";           value: "Titan machinery";}
@@ -12,7 +28,11 @@ Item {
         ListElement { title: "Maintenance due";   value: "256h";}
     }
 
-    Rectangle{
+
+    /**
+     * @brief Main background rectangle for the machine info list.
+     */
+    Rectangle {
         anchors.fill: parent
         color: Styles.color.transparent
         Column{

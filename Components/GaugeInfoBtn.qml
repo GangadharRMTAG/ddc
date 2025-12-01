@@ -1,3 +1,10 @@
+/**
+ * @file GaugeInfoBtn.qml
+ * @brief Gauge info button component for CASE CONSTRUCTION UI.
+ *
+ * This QML file provides a reusable gauge button with a status indicator bar, supporting
+ * different indicator positions and critical state logic.
+ */
 import QtQuick
 import Styles 1.0
 
@@ -5,10 +12,28 @@ Rectangle{
     id:gaugeInfoBtn
     color: Styles.color.background
 
+    /**
+     * @property sourceImg
+     * @brief URL for the gauge image.
+     */
     property string sourceImg: ""
-    property int indicatorPos: 0 // 0 = on left , 1 = on right , 2 = on both
-    property int indicatorVal: 3 // 1 - 5 level of indicator
 
+    /**
+     * @property indicatorPos
+     * @brief Indicator position: 0 = left, 1 = right, 2 = both.
+     */
+    property int indicatorPos: 0
+
+    /**
+     * @property indicatorVal
+     * @brief Indicator value (1-5 levels).
+     */
+    property int indicatorVal: 3
+
+
+    /**
+     * @brief Gauge image displayed at the top.
+     */
     Image {
         id: gaugeInfoImg
         height: parent.height/2
@@ -37,6 +62,12 @@ Rectangle{
             }
         }
     }
+
+    /**
+     * @brief Returns the color for each indicator bar based on value and position.
+     * @param index The 1-based index of the indicator bar.
+     * @return The color for the indicator bar.
+     */
     function getIndicatorColor(index) {
         if (indicatorVal < index)
             return Styles.color.darkBackground;
@@ -50,9 +81,13 @@ Rectangle{
         if (indicatorPos === 2 && (index === 1 || index === 5) && (indicatorVal === index))
             return Styles.color.warningRed;
         // Otherwise normal active color
-        return  Styles.color.textLight;
+        return Styles.color.textLight;
     }
 
+    /**
+     * @brief Returns true if the indicator is in a critical state.
+     * @return True if critical, false otherwise.
+     */
     function isCritical() {
         // Critical on LEFT
         if ((indicatorPos === 0 || indicatorPos === 2) && indicatorVal === 1)
