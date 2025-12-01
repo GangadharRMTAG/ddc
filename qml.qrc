@@ -17,5 +17,11 @@
         <file>Components/GaugeInfoBtn.qml</file>
         <file>Pages/Menu.qml</file>
         <file>Components/FlatButton.qml</file>
+        <file>Pages/Widgets/TripInfo.qml</file>
+        <file>Pages/Widgets/CameraView.qml</file>
+        <file>Pages/Widgets/Radio.qml</file>
+        <file>Pages/Widgets/Climate.qml</file>
+        <file>Pages/Widgets/MachineInfo.qml</file>
+        <file>Pages/Widgets/RpmWidget.qml</file>
     </qresource>
 </RCC>
