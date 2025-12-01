@@ -23,6 +23,7 @@ Item {
         property color darkBackground: "#1f2437"
         property color warningRed: "#ff0000"
         property color seperator: "#434860"
+        property color pureWhite: "#ffffff"
 
         //Text
         property color textDark: "#061D3E"
@@ -50,6 +51,9 @@ Item {
         property color mistBlue: "#626786"
         property color nightIndigo: "#211F30"
         property color mistLavender: "#C3C6D7"
+        property color darkSlateBlue: "#32384f"
+        property color steelNavyBlue: "#374058"
+        property color lightGray: "#E0E0E0"
 
     }
 
