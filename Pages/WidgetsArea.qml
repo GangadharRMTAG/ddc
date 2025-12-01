@@ -41,19 +41,7 @@ Rectangle {
                 source: icon
                 onClicked: {
                     selectedIndex = index
-                    if(selectedIndex === 0){
-                        widgetLoader.source = model.page
-                    }else if(selectedIndex === 1){
-                        widgetLoader.source = model.page
-                    }else if(selectedIndex === 2){
-                        widgetLoader.source = model.page
-                    }else if(selectedIndex === 3){
-                        widgetLoader.source = model.page
-                    }else if(selectedIndex === 4){
-                        widgetLoader.source = model.page
-                    }else if(selectedIndex === 5){
-                        widgetLoader.source = model.page
-                    }
+                    widgetLoader.source = model.page
                 }
             }
         }
