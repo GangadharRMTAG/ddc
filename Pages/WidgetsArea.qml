@@ -9,23 +9,24 @@ Rectangle {
     implicitHeight: 420
     color: Styles.color.transparent
 
-    readonly property real cx: width / 2
-    readonly property real cy: height / 2
-    readonly property real widgetCy: cy + buttonsRow.height / 2
+    property real cx: width / 2
+    property real cy: height / 2
+    property real widgetCy: cy + buttonsRow.height / 2
 
-    readonly property real outerRadius:      width * 0.30
-    readonly property real darkRingRadius:   outerRadius * 0.92
-    readonly property real thinGreyRadius:   outerRadius * 0.89
-    readonly property real bigWhiteRadius:   outerRadius * 0.66
-    readonly property real smallWhiteRadius: outerRadius * 0.45
+    property real outerRadius:      width * 0.30
+    property real darkRingRadius:   outerRadius * 0.92
+    property real thinGreyRadius:   outerRadius * 0.89
+    property real bigWhiteRadius:   outerRadius * 0.66
+    property real smallWhiteRadius: outerRadius * 0.45
 
-    readonly property real numberRadius: thinGreyRadius + outerRadius * 0.20
-    readonly property real tickRadius:   thinGreyRadius + outerRadius * 0.05
-    readonly property real voltsRadius:  thinGreyRadius + outerRadius * 0.15
+    property real numberRadius: thinGreyRadius + outerRadius * 0.20
+    property real tickRadius:   thinGreyRadius + outerRadius * 0.05
+    property real voltsRadius:  thinGreyRadius + outerRadius * 0.15
 
     property int value0to100: 35
     property int rpmValue: 1250
     property alias source: iconImage.source
+    property int selectedIndex: 0
 
     function scaleAngle(v) {
         return 180 - (v / 40.0) * 180.0;
@@ -61,9 +62,10 @@ Rectangle {
                 height: isPortrait ? widgetArea.height * 0.18 : widgetArea.height * 0.16
                 width: isPortrait ?  widgetArea.width *  0.18 :  widgetArea.width* 0.16
                 showHighlightBar: false
+                buttonHighlight : index === selectedIndex
                 source: icon
                 onClicked: {
-                    buttonHighlight = !buttonHighlight
+                    selectedIndex = index
                 }
             }
         }

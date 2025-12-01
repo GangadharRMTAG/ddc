@@ -37,5 +37,11 @@
         <file>Images/GaugesArea/FuelLevel_R.png</file>
         <file>Images/GaugesArea/HydraulicOil_W.png</file>
         <file>Images/GaugesArea/Background.png</file>
+        <file>Images/SettingsPage/cameraSetting.png</file>
+        <file>Images/SettingsPage/machineLerning.png</file>
+        <file>Images/SettingsPage/machineSettings.png</file>
+        <file>Images/SettingsPage/machinestatus.png</file>
+        <file>Images/SettingsPage/phone.png</file>
+        <file>Images/SettingsPage/tripInformation.png</file>
     </qresource>
 </RCC>

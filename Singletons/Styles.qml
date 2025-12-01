@@ -84,4 +84,8 @@ Item {
         property string awesome_6_pro: awesome_6_pro.name
     }
 
+    property QtObject text: QtObject{
+        property string arrow : ">"
+    }
+
 }
