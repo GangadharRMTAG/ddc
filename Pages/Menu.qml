@@ -13,12 +13,6 @@ Column {
     property real uiScale: Math.max(0.5, settingsMenuRoot.width / designWidth)
     property int selectedIndex: -1
 
-    function loadPage(){
-        if(selectedIndex === 0){
-            portraitMain.pushAction("")
-        }
-    }
-
     Rectangle {
         id: menuBackground
         anchors.fill: parent
@@ -99,7 +93,6 @@ Column {
                     onClicked: {
                         selectedIndex = index
                         console.log("Clicked:", title)
-                        loadPage()
                     }
                 }
             }
