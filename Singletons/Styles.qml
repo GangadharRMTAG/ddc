@@ -22,10 +22,11 @@ Item {
         property color background: "#2d3249"
         property color darkBackground: "#1f2437"
         property color warningRed: "#ff0000"
+        property color seperator: "#434860"
 
         //Text
         property color textDark: "#061D3E"
-        property color textDim: "#A4ABB8"
+        property color textDim: "#c7c9d7"
         property color textLight: "#FFF"
         property color textSelectionColor: "#5546A6D1"
         property color tabBarText: "#D0D3D4"
