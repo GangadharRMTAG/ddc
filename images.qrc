@@ -43,5 +43,10 @@
         <file>Images/SettingsPage/machinestatus.png</file>
         <file>Images/SettingsPage/phone.png</file>
         <file>Images/SettingsPage/tripInformation.png</file>
+        <file>Images/Climate/AirConditioning.png</file>
+        <file>Images/Climate/Defrost.png</file>
+        <file>Images/Climate/Recirculation.png</file>
+        <file>Images/Climate/CabinTemp.png</file>
+        <file>Images/Climate/Fan.png</file>
     </qresource>
 </RCC>
