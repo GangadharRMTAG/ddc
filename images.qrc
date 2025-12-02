@@ -52,5 +52,7 @@
         <file>Images/Radio/CNN.png</file>
         <file>Images/Radio/NBAradio.jpg</file>
         <file>Images/Radio/VirginRadio.png</file>
+        <file>Images/Camera/CameraSettings.png</file>
+        <file>Images/Camera/DemoCameraImg.png</file>
     </qresource>
 </RCC>
