@@ -48,5 +48,9 @@
         <file>Images/Climate/Recirculation.png</file>
         <file>Images/Climate/CabinTemp.png</file>
         <file>Images/Climate/Fan.png</file>
+        <file>Images/Radio/Arrow.png</file>
+        <file>Images/Radio/CNN.png</file>
+        <file>Images/Radio/NBAradio.jpg</file>
+        <file>Images/Radio/VirginRadio.png</file>
     </qresource>
 </RCC>

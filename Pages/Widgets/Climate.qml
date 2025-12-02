@@ -6,6 +6,7 @@ Item {
     id: climate
 
     property int fanSpeedLevel: 1 //1-low,2-mid,3-high
+    property int cabinTemp: 20
 
     Rectangle {
         anchors.fill: parent
@@ -75,7 +76,7 @@ Item {
                             source: "qrc:/Images/Climate/CabinTemp.png"
                         }
                         Text {
-                            text: "20 °C"
+                            text: cabinTemp + " °C"
                             font{pixelSize: 17;family: Styles.font.notoSans}
                             color: Styles.color.textLight
                         }
