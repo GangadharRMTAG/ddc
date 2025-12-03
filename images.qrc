@@ -43,5 +43,16 @@
         <file>Images/SettingsPage/machinestatus.png</file>
         <file>Images/SettingsPage/phone.png</file>
         <file>Images/SettingsPage/tripInformation.png</file>
+        <file>Images/Climate/AirConditioning.png</file>
+        <file>Images/Climate/Defrost.png</file>
+        <file>Images/Climate/Recirculation.png</file>
+        <file>Images/Climate/CabinTemp.png</file>
+        <file>Images/Climate/Fan.png</file>
+        <file>Images/Radio/Arrow.png</file>
+        <file>Images/Radio/CNN.png</file>
+        <file>Images/Radio/NBAradio.jpg</file>
+        <file>Images/Radio/VirginRadio.png</file>
+        <file>Images/Camera/CameraSettings.png</file>
+        <file>Images/Camera/DemoCameraImg.png</file>
     </qresource>
 </RCC>

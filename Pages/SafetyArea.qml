@@ -55,11 +55,12 @@ Item {
         id: potraitLayout
         Row {
             anchors.centerIn: parent
+            spacing: safetyArea.width * 0.01
             Repeater {
                 model: buttonModel
                 SafetyButton {
                     height: safetyArea.height
-                    width:  safetyArea.width * 0.16
+                    width:  safetyArea.width * 0.15
                     source:  selected ? model.selectedIcon :  model.icon
                 }
             }

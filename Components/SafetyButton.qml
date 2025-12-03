@@ -12,8 +12,6 @@ import "../Components"
 
 Item {
     id: safetyButton
-    width: 65
-    height: 65
 
     /**
      * @property source
@@ -47,18 +45,17 @@ Item {
 
     Rectangle {
         id: tile
-        anchors.margins: 2
         anchors.fill: parent
         radius: 6
         color:buttonHighlight ? Styles.color.lavenderGray : Styles.color.charcolBlue
         Rectangle {
-            height: tile.height - (progressBar.height * 2)
+            height: showHighlightBar ? (tile.height - (progressBar.height * 2)) : tile.height
             width: tile.width
             color: Styles.color.transparent
             Image {
                 id: iconImage
-                width: tile.height*0.8
-                height: tile.width*0.8
+                width: tile.height*0.6
+                height: tile.width*0.6
                 anchors.centerIn: parent
             }
         }

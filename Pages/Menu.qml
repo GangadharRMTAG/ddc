@@ -4,10 +4,9 @@ import QtQuick.Layouts 1.12
 import Styles 1.0
 import "../Components"
 
-Column {
+Item {
     id: settingsMenuRoot
     anchors.fill: parent
-    spacing: 0
 
 
     /**

@@ -12,30 +12,8 @@ import QtQuick.Shapes 1.12
 import Styles 1.0
 import "../Components"
 
-Rectangle {
+Item {
     id: widgetArea
-    implicitWidth: 420
-    implicitHeight: 420
-    color: Styles.color.transparent
-
-
-    /**
-     * @property value0to100
-     * @brief Value for widgets that use a 0-100 scale (e.g., RPM widget).
-     */
-    property int value0to100: 35
-
-    /**
-     * @property rpmValue
-     * @brief Current RPM value for the RPM widget.
-     */
-    property int rpmValue: 1250
-
-    /**
-     * @property source
-     * @brief Default image source for widgets (used by RPM widget).
-     */
-    property url source: "qrc:/Images/WidgetArea/Idel.png"
 
     /**
      * @property selectedIndex
@@ -68,18 +46,24 @@ Rectangle {
             top: parent.top
             horizontalCenter: parent.horizontalCenter
         }
-
+        spacing: widgetArea.width  * 0.02
         Repeater {
             model: buttonModel
             delegate: SafetyButton {
-                height: isPortrait ? widgetArea.height * 0.18 : widgetArea.height * 0.16
-                width:  isPortrait ? widgetArea.width  * 0.18 : widgetArea.width  * 0.16
+                height: widgetArea.height * 0.16
+                width: widgetArea.width  * 0.15
                 showHighlightBar: false
                 buttonHighlight : index === selectedIndex
                 source: icon
                 onClicked: {
                     selectedIndex = index
                     widgetLoader.source = model.page
+                }
+                Rectangle {
+                    width: parent.width
+                    height: 6
+                    anchors.bottom: parent.bottom
+                    color:index === selectedIndex ? Styles.color.lavenderGray : Styles.color.charcolBlue
                 }
             }
         }
@@ -89,7 +73,7 @@ Rectangle {
         id: widgetBackground
         x: 0
         y: buttonsRow.height
-        width: isPortrait ? parent.width * 1.05 : parent.width
+        width: parent.width
         height: parent.height - buttonsRow.height
         anchors.horizontalCenter: parent.horizontalCenter
         color: Styles.color.darkSlate
@@ -102,46 +86,10 @@ Rectangle {
         Loader {
             id: widgetLoader
             anchors.fill: widgetBackground
-            onLoaded: loadPageVal(buttonModel.get(selectedIndex).name)
         }
     }
 
     Component.onCompleted: {
         widgetLoader.source = buttonModel.get(selectedIndex).page
-    }
-
-
-    /**
-     * @brief Passes values to the loaded widget and logs page loads.
-     * @param pageName The short name of the widget page being loaded.
-     */
-    function loadPageVal(pageName) {
-        console.log("New Page loaded : name -", pageName)
-        switch (pageName) {
-        case "RPM":
-            console.log(pageName,"loaded")
-            widgetLoader.item.value0to100 = widgetArea.value0to100
-            widgetLoader.item.rpmValue    = widgetArea.rpmValue
-            widgetLoader.item.source      = widgetArea.source
-            break
-        case "TRP":
-            console.log(pageName,"loaded")
-            break
-        case "CAM":
-            console.log(pageName,"loaded")
-            break
-        case "RAD":
-            console.log(pageName,"loaded")
-            break
-        case "CLI":
-            console.log(pageName,"loaded")
-            break
-        case "MCH":
-            console.log(pageName,"loaded")
-            break
-        default:
-            console.log("No match")
-            break
-        }
     }
 }

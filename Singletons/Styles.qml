@@ -74,19 +74,10 @@ Item {
                 console.error(notoMonoFont.source)
     }
 
-    FontLoader {
-        id: awesome_6_pro
-        source: "qrc:/Fonts/Awesome_6_Pro_Solid.otf"
-        onStatusChanged:
-            if(awesome_6_pro.status === FontLoader.Error)
-                console.error(awesome_6_pro.source)
-    }
-
     // Fonts
     property QtObject font: QtObject {
         property string notoMono: notoMonoFont.name
         property string notoSans: notoSansFont.name
-        property string awesome_6_pro: awesome_6_pro.name
     }
 
     property QtObject text: QtObject{

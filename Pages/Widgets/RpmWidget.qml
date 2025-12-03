@@ -6,9 +6,23 @@ Item {
     id: gauge
     anchors.fill: parent
 
+    /**
+     * @property value0to100
+     * @brief Value for widgets that use a 0-100 scale (e.g., RPM widget).
+     */
     property int value0to100: 35
+
+    /**
+     * @property rpmValue
+     * @brief Current RPM value for the RPM widget.
+     */
     property int rpmValue: 1250
-    property url source: ""
+
+    /**
+     * @property source
+     * @brief Default image source for widgets (used by RPM widget).
+     */
+    property url source: "qrc:/Images/WidgetArea/Idel.png"
 
     property real cx: width / 2
     property real cy: height / 2
