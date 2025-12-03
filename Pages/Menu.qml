@@ -4,10 +4,9 @@ import QtQuick.Layouts 1.12
 import Styles 1.0
 import "../Components"
 
-Column {
+Item {
     id: settingsMenuRoot
     anchors.fill: parent
-    spacing: 0
 
     property real designWidth: 360
     property real uiScale: Math.max(0.5, settingsMenuRoot.width / designWidth)

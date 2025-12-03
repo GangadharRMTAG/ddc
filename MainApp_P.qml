@@ -47,8 +47,7 @@ Item {
                 id: widgetArea
                 anchors.horizontalCenter: parent.horizontalCenter
                 height: portraitMain.height * 0.5
-                width: portraitMain.width * 0.9
-                source: "qrc:/Images/WidgetArea/Idel.png"
+                width: portraitMain.width * 0.95
             }
         }
     }

@@ -8,7 +8,7 @@ Item {
 
     property int value0to100: 35
     property int rpmValue: 1250
-    property url source: ""
+    property url source: "qrc:/Images/WidgetArea/Idel.png"
 
     property real cx: width / 2
     property real cy: height / 2
