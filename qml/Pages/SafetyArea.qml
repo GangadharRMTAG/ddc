@@ -44,7 +44,7 @@ Item {
         id: orientationLoader
         anchors.centerIn: parent
         active: true
-        sourceComponent: isPortrait ?  potraitLayout : landscapeLayout
+        sourceComponent: isPortrait ?  portraitLayout : landscapeLayout
     }
 
 
@@ -52,7 +52,7 @@ Item {
      * @brief Portrait layout for the safety area.
      */
     Component {
-        id: potraitLayout
+        id: portraitLayout
         Row {
             anchors.centerIn: parent
             spacing: safetyArea.width * 0.01

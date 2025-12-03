@@ -16,7 +16,9 @@ int main(int argc, char *argv[])
     AppInterface appIf;
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
-    engine.rootContext()->setContextProperty("isPortrait", QStringLiteral(ORIENTATION) == "PORTRAIT" ? true : false);
+    
+    bool isPortrait = QStringLiteral(ORIENTATION) == "PORTRAIT";
+    engine.rootContext()->setContextProperty("isPortrait", isPortrait);
     engine.rootContext()->setContextProperty("appInterface", &appIf);
     qmlRegisterSingletonType(QUrl("qrc:///Singletons/Styles.qml"), "Styles", 1, 0, "Styles");
 

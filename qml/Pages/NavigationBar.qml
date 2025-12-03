@@ -48,7 +48,7 @@ Item {
          */
         Loader {
             anchors.fill: parent
-            sourceComponent: isPortrait ? potraitLayout : landscapeLayout
+            sourceComponent: isPortrait ? portraitLayout : landscapeLayout
         }
     }
 
@@ -56,7 +56,7 @@ Item {
      * @brief Portrait layout for the navigation bar.
      */
     Component {
-        id: potraitLayout
+        id: portraitLayout
         Rectangle {
             id: navigationBarRectP
             anchors.fill: parent

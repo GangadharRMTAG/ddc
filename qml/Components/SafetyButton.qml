@@ -54,9 +54,10 @@ Item {
             color: Styles.color.transparent
             Image {
                 id: iconImage
-                width: tile.height*0.6
-                height: tile.width*0.6
+                width: tile.width*0.6
+                height: tile.height*0.6
                 anchors.centerIn: parent
+                fillMode: Image.PreserveAspectFit
             }
         }
 
