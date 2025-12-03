@@ -232,7 +232,7 @@ void cLogger::messageHandler(QtMsgType type, const QMessageLogContext &context, 
         // Create log fileif not open
         QString strSysDir;
     #ifdef PLAT_LINUX_IMX6
-        strSysDir = "/62DLP_root/SystemFiles";
+        strSysDir = "/home/root";
     #else
         strSysDir = QCoreApplication::applicationDirPath();// + "/SystemFiles";
     #endif
@@ -385,7 +385,7 @@ void cLogger::checkForLogFile()
 
     QString strSysDir;
 #ifdef PLAT_LINUX_IMX6
-    strSysDir = "/62DLP_root/SystemFiles";
+    strSysDir = "/home/root";
 #else
     if(QCoreApplication::applicationDirPath().isEmpty()) {
         qWarning() << "Error:QCoreApplication::applicationDirPath() is Empty";
