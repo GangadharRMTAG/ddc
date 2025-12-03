@@ -29,6 +29,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Fonts.qrc
         Logger/include/commonlib_global.h Logger/include/clogger.h
         Logger/src/clogger.cpp
+        appinterface.h appinterface.cpp
     )
 target_compile_definitions(DDC PRIVATE ORIENTATION="${ORIENTATION}")
 

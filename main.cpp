@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include "./Logger/include/clogger.h"
+#include "appinterface.h"
 
 
 
@@ -12,9 +13,11 @@ int main(int argc, char *argv[])
 #endif
     QGuiApplication app(argc, argv);
 
+    AppInterface appIf;
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     engine.rootContext()->setContextProperty("isPortrait", QStringLiteral(ORIENTATION) == "PORTRAIT" ? true : false);
+    engine.rootContext()->setContextProperty("appInterface", &appIf);
     qmlRegisterSingletonType(QUrl("qrc:///Singletons/Styles.qml"), "Styles", 1, 0, "Styles");
 
     cLogger::instance().init("DDC_LOG");
