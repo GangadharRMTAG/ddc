@@ -18,18 +18,18 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick)
 
 set(PROJECT_SOURCES
         main.cpp
-        qml.qrc
+        ./qml/qml.qrc
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(DDC
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        images.qrc
-        Fonts.qrc
-        Logger/include/commonlib_global.h Logger/include/clogger.h
-        Logger/src/clogger.cpp
-        appinterface.h appinterface.cpp
+        ./qml/images.qrc
+        ./qml/Fonts.qrc
+        include/commonlib_global.h include/clogger.h
+        src/clogger.cpp
+        include/appinterface.h src/appinterface.cpp
     )
 target_compile_definitions(DDC PRIVATE ORIENTATION="${ORIENTATION}")
 

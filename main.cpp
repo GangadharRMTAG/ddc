@@ -1,8 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include "./Logger/include/clogger.h"
-#include "appinterface.h"
+#include "./include/clogger.h"
+#include "./include/appinterface.h"
 
 
 
