@@ -1,3 +1,12 @@
+/**
+ * @file Menu.qml
+ * @brief Main settings/menu page for the application.
+ *
+ * This QML file implements the application's Menu page which displays a header
+ * and a list of settings/menu items. The list is backed by a ListModel and each
+ * item is presented via a delegate that uses the project's FlatButton component.
+ *
+ */
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12

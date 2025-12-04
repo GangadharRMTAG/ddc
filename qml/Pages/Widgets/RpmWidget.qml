@@ -1,3 +1,13 @@
+/**
+ * @file RpmWidget.qml
+ * @brief RPM gauge widget used in the instrument panel.
+ *
+ * This QML Item implements an RPM-style circular gauge composed of multiple
+ * layered ShapePaths, ticks, labels and a central display showing the RPM
+ * numeric value and a small icon. The widget exposes properties to control
+ * the numeric display, the 0-100 scaled value (used for arc sweep), and the
+ * icon source displayed in the center.
+ */
 import QtQuick 2.12
 import QtQuick.Shapes 1.12
 import Styles 1.0

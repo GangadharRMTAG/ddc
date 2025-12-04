@@ -1,3 +1,11 @@
+/**
+ * @file Radio.qml
+ * @brief A radio channel selector widget that displays previous/current/next channel artwork and allows cycling through channels.
+ *
+ * This QML Item displays three channel images (previous, current, next), the current channel name and program,
+ * and left/right arrow controls to switch channels. Channel data is provided by an internal ListModel.
+ *
+ */
 import QtQuick 2.12
 import Styles 1.0
 import QtQuick.Effects
@@ -5,9 +13,29 @@ import "../../Components"
 
 Item {
     id: radio
+    /** @property int currRadio
+     *  @brief Index of the currently selected radio channel within radioChannels.
+     */
     property int currRadio: 1
+
+    /** @property int priRadio
+     *  @brief Computed index of the previous radio channel (wraps to last when currRadio is 0).
+     */
     property int priRadio: (currRadio === 0) ? radioChannels.count-1 : currRadio-1
+
+    /** @property int nextRadio
+     *  @brief Computed index of the next radio channel (wraps to 0 when currRadio is last).
+     */
     property int nextRadio: (currRadio === (radioChannels.count-1)) ? 0 : currRadio+1
+
+    /**
+     * @brief ListModel holding available radio channels.
+     *
+     * Each ListElement provides:
+     * - name: display name of the radio station
+     * - program: current program text
+     * - icon: path to the station artwork
+     */
 
     ListModel {
         id: radioChannels

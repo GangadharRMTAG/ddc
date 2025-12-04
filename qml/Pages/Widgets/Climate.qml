@@ -1,11 +1,36 @@
+/**
+ * @file Climate.qml
+ * @brief Climate control widget for the in-car display.
+ *
+ * This QML component implements a compact climate control panel containing:
+ *  - Defrost, A/C and Recirculation safety buttons
+ *  - Cabin temperature display
+ *  - Fan speed indicator with clickable control
+ *
+ */
 import QtQuick 2.12
 import Styles 1.0
 import "../../Components"
 
 Item {
     id: climate
-
+    /**
+     * @brief Current fan speed level.
+     *
+     * Values:
+     *  - 1 : low
+     *  - 2 : mid
+     *  - 3 : high
+     *
+     * The value is used to render the visual fan-speed indicator bars.
+     * @type int
+     */
     property int fanSpeedLevel: 1 //1-low,2-mid,3-high
+
+    /**
+    * @brief Cabin temperature in degrees Celsius displayed by the UI.
+     * @type int
+     */
     property int cabinTemp: 20
 
     Rectangle {

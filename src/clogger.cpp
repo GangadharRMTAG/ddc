@@ -1,3 +1,15 @@
+/**
+ * @file src/clogger.cpp
+ * @brief Implementation of cLogger and LogMessageContext.
+ *
+ * This file contains the implementation of the cLogger singleton which
+ * installs a Qt message handler, writes messages to a file, echoes to
+ * stdout (optionally), keeps a buffer of recent messages, and supports
+ * log file rotation. It also implements LogMessageContext which carries
+ * context details about a log message (thread, module, file, function,
+ * and line number).
+ */
+
 #include <QThread>
 #include <QMap>
 #include <QDateTime>
@@ -22,12 +34,24 @@ extern qint64 g_startTime;
 // log critical messages only for ALARM category
 Q_LOGGING_CATEGORY(_alarm_, "alarm.global", QtMsgType::QtCriticalMsg)
 
+/**
+ * @brief Private data for cLogger (PIMPL pattern).
+ *
+ * This struct stores internal state for the logger implementation:
+ * file handle, echo settings, timestamping, per-module log levels,
+ * buffered messages, and synchronization primitives.
+ */
 struct cLogger::cLoggerPrivate
 {
+    /// Default log level used when no explicit setting exists
     const static QtMsgType defaultLogLevel;
+    /// File used for persistent logging
     QFile logFile;
+    /// Whether to echo messages to stdout
     bool echoToStdOut;
+    /// Whether to include time stamps in the log output
     bool enableTimeStamp;
+    /// Application name used for logger identification
     QString loggerAppName = "TestLogger";
 
     // How big we let the log file get before we roll it over
@@ -74,12 +98,29 @@ const int threadFieldWidth = 30;
 const QStringList g_strLevelList = {"DEB","WAR","CRI","FAT","INF"};
 QString logFileName = "TestLogger";
 
+/**
+ * @brief Get the global cLogger singleton instance.
+ *
+ * The instance is created on first use and returned by reference.
+ *
+ * @return Reference to the cLogger singleton
+ */
 cLogger &cLogger::instance()
 {
     static cLogger theInstance;
     return theInstance;
 }
 
+/**
+ * @brief Initialize the logger.
+ *
+ * Validates the supplied filename and creates internal private data when
+ * required. Reads logging preferences from QSettings (ORG_NAME/APP_NAME)
+ * and installs the message handler.
+ *
+ * @param fileName Base name of the log file (no path separators allowed)
+ * @return true on success, false on validation failure
+ */
 bool cLogger::init(QString fileName)
 {
     // Validate filename to prevent path traversal and invalid characters
@@ -146,27 +187,66 @@ bool cLogger::init(QString fileName)
     return status;
 }
 
+/**
+ * @brief Get the stored database version from QSettings.
+ *
+ * @return Stored database version or -1 if not set
+ */
 int cLogger::getDbVersion()
 {
     QSettings settings(ORG_NAME, APP_NAME);
     return settings.value("dbVersion", -1).toInt();
 }
+
+/**
+ * @brief Store the database version into QSettings.
+ *
+ * @param ver Database version to store
+ */
 void cLogger::setDbVersion(int ver)
 {
     QSettings settings(ORG_NAME, APP_NAME);
     settings.setValue("dbVersion",ver);
 }
 
+/**
+ * @brief Get the stored probe database version from QSettings.
+ *
+ * @return Stored probe database version or -1 if not set
+ */
 int cLogger::getProbeDbVersion()
 {
     QSettings settings(ORG_NAME, APP_NAME);
     return settings.value("probeDbVersion", -1).toInt();
 }
+
+/**
+ * @brief Store the probe database version into QSettings.
+ *
+ * @param ver Probe database version to store
+ */
 void cLogger::setProbeDbVersion(int ver)
 {
     QSettings settings(ORG_NAME, APP_NAME);
     settings.setValue("probeDbVersion",ver);
 }
+
+/**
+ * @brief Qt message handler that routes messages to the cLogger.
+ *
+ * This function is installed with qInstallMessageHandler. It performs:
+ * - initialization checks,
+ * - filtering by enabled log types,
+ * - deduplication of consecutive identical messages,
+ * - formatting messages with timestamp/module/thread,
+ * - writing to the log file and stdout,
+ * - buffering recent messages and emitting them when threshold is reached,
+ * - log file rollover when the file exceeds configured size.
+ *
+ * @param type The Qt message type
+ * @param context Contextual information (file, function, line, category)
+ * @param msg The actual message text
+ */
 void cLogger::messageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     // Ensure d_ptr is initialized (thread-safe check)
@@ -288,11 +368,11 @@ void cLogger::messageHandler(QtMsgType type, const QMessageLogContext &context, 
     if(!d_ptr->logFile.isOpen()) {
         // Create log fileif not open
         QString strSysDir;
-    #ifdef PLAT_LINUX_IMX6
+#ifdef PLAT_LINUX_IMX6
         strSysDir = "/62DLP_root/SystemFiles";
-    #else
+#else
         strSysDir = QCoreApplication::applicationDirPath();// + "/SystemFiles";
-    #endif
+#endif
 //        QString strFilename = strSysDir +"/Logs.log";
 
 #ifdef Q_OS_ANDROID
@@ -348,6 +428,15 @@ void cLogger::messageHandler(QtMsgType type, const QMessageLogContext &context, 
     }
 }
 
+/**
+ * @brief Set minimum log level for a specific module (or globally).
+ *
+ * If module is empty, all existing modules' levels are set to minLevel.
+ * The specified level is also appended to the list of explicit log types.
+ *
+ * @param minLevel Minimum QtMsgType level to enable
+ * @param module Module name (empty for global)
+ */
 void cLogger::setLoggerLevel(QtMsgType minLevel, const QString &module)
 {
     d_ptr->loggerAppName = module;
@@ -360,16 +449,34 @@ void cLogger::setLoggerLevel(QtMsgType minLevel, const QString &module)
     d_ptr->logTypes.append(minLevel);
 }
 
+/**
+ * @brief Get the configured size of the previous-message buffer.
+ *
+ * @return Maximum number of messages retained in the buffer
+ */
 int cLogger::previousMessageBufferSize() const
 {
     return d_ptr->maxPreviousMessages;
 }
 
+/**
+ * @brief Return path of the current log file.
+ *
+ * @return Full path to the open log file (or empty if unset)
+ */
 QString cLogger::logFilePath() const
 {
     return d_ptr->logFile.fileName();
 }
 
+/**
+ * @brief Read the entire log file and return its lines.
+ *
+ * This function acquires the log mutex, opens the file for reading,
+ * reads all lines into a list, then re-opens the file for append mode.
+ *
+ * @return List of log lines (trimmed)
+ */
 QList<QString> cLogger::previousMessages() const
 {
     QMutexLocker logMutexLocker(&d_ptr->logMutex);
@@ -387,6 +494,18 @@ QList<QString> cLogger::previousMessages() const
     return prevMsgs;
 }
 
+/**
+ * @brief Read log file entries starting from a given timestamp.
+ *
+ * This function returns up to maxMessages either in chronological order
+ * or reverse (most recent first) depending on the reverse flag. Timestamps
+ * are parsed from the file's formatted lines.
+ *
+ * @param start Return messages after this QDateTime (UTC)
+ * @param maxMessages Maximum messages to return
+ * @param reverse If true, return messages in reverse order (most recent first)
+ * @return List/queue of message strings matching criteria
+ */
 QList<QString> cLogger::previousMessages(const QDateTime &start, int maxMessages, bool reverse) const
 {
     QMutexLocker logMutexLocker(&d_ptr->logMutex);
@@ -426,15 +545,33 @@ QList<QString> cLogger::previousMessages(const QDateTime &start, int maxMessages
     return prevMsgs;
 }
 
+/**
+ * @brief Enable or disable echoing log messages to standard output.
+ *
+ * @param value true to echo messages to stdout, false to suppress
+ */
 void cLogger::setEchoToStandardOut(bool value)
 {
     d_ptr->echoToStdOut = value;
 }
 
+/**
+ * @brief Enable or disable timestamps in logged messages.
+ *
+ * @param value true to include a timestamp in each message, false otherwise
+ */
 void cLogger::setEnableTimeStamp(bool value)
 {
     d_ptr->enableTimeStamp = value;
 }
+
+/**
+ * @brief Ensure the log directory exists and create it if necessary.
+ *
+ * Uses platform-specific directories (or QStandardPaths) to determine
+ * where logs should be placed. Sets permissive permissions on the
+ * created directory.
+ */
 void cLogger::checkForLogFile()
 {
     if( QCoreApplication::instance() == nullptr) {
@@ -471,16 +608,35 @@ void cLogger::checkForLogFile()
     }
 }
 
+/**
+ * @brief Clear the explicitly enabled log types.
+ *
+ * After calling this, no log types are enabled until setLoggerLevel / init
+ * or other configuration re-enables them.
+ */
 void cLogger::clearLogTypes()
 {
     d_ptr->logTypes.clear();
 }
 
+/**
+ * @brief Set the maximum number of previous messages to retain.
+ *
+ * @param arg New maximum buffer size (number of messages)
+ */
 void cLogger::setPreviousMessageBufferSize(int arg)
 {
     d_ptr->maxPreviousMessages = arg;
 }
 
+/**
+ * @brief Set the path of the log file to use.
+ *
+ * This will close the existing file if open and open the new file in
+ * append mode. The path is validated to be non-empty.
+ *
+ * @param arg Full path to the desired log file
+ */
 void cLogger::setLogFilePath(QString arg)
 {
     // Validate path
@@ -502,6 +658,14 @@ void cLogger::setLogFilePath(QString arg)
     d_ptr->logFile.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ReadGroup | QFile::ReadOther);
 }
 
+/**
+ * @brief cLogger constructor.
+ *
+ * Initializes private data if necessary. Not responsible for installing
+ * the message handler (call init() for that).
+ *
+ * @param parent QObject parent
+ */
 cLogger::cLogger(QObject *parent) : QObject(parent)
 {
     QMutexLocker locker(d_ptrMutex());
@@ -513,6 +677,11 @@ cLogger::cLogger(QObject *parent) : QObject(parent)
     }
 }
 
+/**
+ * @brief cLogger destructor.
+ *
+ * Closes the log file and releases private data.
+ */
 cLogger::~cLogger()
 {
     if (d_ptr) {
@@ -524,12 +693,31 @@ cLogger::~cLogger()
     }
 }
 
+/**
+ * @brief Default constructor for LogMessageContext.
+ *
+ * Initializes context members to default empty/zero values.
+ *
+ * @param parent QObject parent (unused)
+ */
 LogMessageContext::LogMessageContext(QObject *parent)
 {
     Q_UNUSED(parent)
     init();
 }
 
+/**
+ * @brief Parameterized constructor for LogMessageContext.
+ *
+ * Populates the context with given values.
+ *
+ * @param thread Thread name
+ * @param module Module name
+ * @param file Source file name
+ * @param function Function name
+ * @param line Line number
+ * @param parent QObject parent (unused)
+ */
 LogMessageContext::LogMessageContext(QString thread, QString module, QString file, QString function, qint32 line, QObject *parent)
 {
     Q_UNUSED(parent)
@@ -541,6 +729,12 @@ LogMessageContext::LogMessageContext(QString thread, QString module, QString fil
     _lineNumber = line;
 }
 
+/**
+ * @brief Copy constructor for LogMessageContext.
+ *
+ * @param other Other LogMessageContext to copy from
+ * @param parent QObject parent
+ */
 LogMessageContext::LogMessageContext(const LogMessageContext &other, QObject *parent) : QObject (parent)
 {
     Q_UNUSED(parent)
@@ -551,6 +745,11 @@ LogMessageContext::LogMessageContext(const LogMessageContext &other, QObject *pa
     _lineNumber = other.lineNumber();
 }
 
+/**
+ * @brief Assignment operator for LogMessageContext.
+ *
+ * @param other Source context to copy from
+ */
 void LogMessageContext::operator =(const LogMessageContext &other)
 {
     _threadName = other.threadName();
@@ -560,61 +759,119 @@ void LogMessageContext::operator =(const LogMessageContext &other)
     _lineNumber = other.lineNumber();
 }
 
+/**
+ * @brief Destructor for LogMessageContext.
+ */
 LogMessageContext::~LogMessageContext()
 {
 
 }
 
+/**
+ * @brief Get the thread name stored in the context.
+ *
+ * @return Thread name
+ */
 QString LogMessageContext::threadName() const
 {
     return _threadName;
 }
 
+/**
+ * @brief Get the module name stored in the context.
+ *
+ * @return Module name
+ */
 QString LogMessageContext::moduleName() const
 {
     return _moduleName;
 }
 
+/**
+ * @brief Get the file name stored in the context.
+ *
+ * @return File name
+ */
 QString LogMessageContext::fileName() const
 {
     return _fileName;
 }
 
+/**
+ * @brief Get the function name stored in the context.
+ *
+ * @return Function name
+ */
 QString LogMessageContext::functionName() const
 {
     return _functionName;
 }
 
+/**
+ * @brief Get the line number stored in the context.
+ *
+ * @return Line number
+ */
 qint32 LogMessageContext::lineNumber() const
 {
     return _lineNumber;
 }
 
+/**
+ * @brief Set the thread name in the context.
+ *
+ * @param arg Thread name
+ */
 void LogMessageContext::setThreadName(QString arg)
 {
     _threadName = arg;
 }
 
+/**
+ * @brief Set the module name in the context.
+ *
+ * @param arg Module name
+ */
 void LogMessageContext::setModuleName(QString arg)
 {
     _moduleName = arg;
 }
 
+/**
+ * @brief Set the file name in the context.
+ *
+ * @param arg File name
+ */
 void LogMessageContext::setFileName(QString arg)
 {
     _fileName = arg;
 }
 
+/**
+ * @brief Set the function name in the context.
+ *
+ * @param arg Function name
+ */
 void LogMessageContext::setFunctionName(QString arg)
 {
     _functionName = arg;
 }
 
+/**
+ * @brief Set the line number in the context.
+ *
+ * @param arg Line number
+ */
 void LogMessageContext::setLineNumber(qint32 arg)
 {
     _lineNumber = arg;
 }
 
+/**
+ * @brief Initialize members of LogMessageContext to safe defaults.
+ *
+ * Sets string members to empty and line number to 0.
+ */
 void LogMessageContext::init()
 {
     _threadName = "";
