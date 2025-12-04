@@ -10,6 +10,8 @@
 #include <QSettings>
 #include <QCoreApplication>
 #include <QDir>
+#include <QStandardPaths>
+#include <QRegularExpression>
 #include "../include/clogger.h"
 
 #ifdef DISPLAY_TIME_FOR_PROFILING
@@ -52,7 +54,9 @@ struct cLogger::cLoggerPrivate
     QString prevMsg;
 };
 
-cLogger::cLoggerPrivate *cLogger::d_ptr = NULL;
+// Use Q_GLOBAL_STATIC for thread-safe singleton initialization
+Q_GLOBAL_STATIC(QMutex, d_ptrMutex)
+cLogger::cLoggerPrivate *cLogger::d_ptr = nullptr;
 #ifdef QT_DEBUG
 const QtMsgType cLogger::cLoggerPrivate::defaultLogLevel = QtWarningMsg;
 #else
@@ -66,7 +70,8 @@ const qint64 cLogger::cLoggerPrivate::logFileRolloverSize = 2097152;//1048576;
 const int levelFieldWidth = 10;
 const int moduleFieldWidth = 20;
 const int threadFieldWidth = 30;
-QStringList g_strLevelList = {"DEB","WAR","CRI","FAT","INF"};
+// Map QtMsgType enum values to string indices (QtDebugMsg=0, QtWarningMsg=1, QtCriticalMsg=2, QtFatalMsg=3, QtInfoMsg=4)
+const QStringList g_strLevelList = {"DEB","WAR","CRI","FAT","INF"};
 QString logFileName = "TestLogger";
 
 cLogger &cLogger::instance()
@@ -77,7 +82,35 @@ cLogger &cLogger::instance()
 
 bool cLogger::init(QString fileName)
 {
-    bool status = false;
+    // Validate filename to prevent path traversal and invalid characters
+    if (fileName.isEmpty()) {
+        qWarning() << "cLogger::init: Empty filename provided";
+        return false;
+    }
+    
+    // Check for path traversal attempts
+    if (fileName.contains("..") || fileName.contains("/") || fileName.contains("\\")) {
+        qWarning() << "cLogger::init: Invalid filename contains path separators:" << fileName;
+        return false;
+    }
+    
+    // Validate filename contains only safe characters
+    QRegularExpression safeFilenameRegex("^[a-zA-Z0-9._-]+$");
+    if (!safeFilenameRegex.match(fileName).hasMatch()) {
+        qWarning() << "cLogger::init: Filename contains invalid characters:" << fileName;
+        return false;
+    }
+    
+    // Ensure d_ptr is initialized
+    QMutexLocker locker(d_ptrMutex());
+    if (!d_ptr) {
+        d_ptr = new cLoggerPrivate();
+        d_ptr->maxPreviousMessages = d_ptr->defaultMaxPreviousMessages;
+        d_ptr->logNotificationThreshold = d_ptr->defaultLogNotificationThreshold;
+        checkForLogFile();
+    }
+    
+    bool status = true;
     logFileName = fileName;
     QSettings settings(ORG_NAME, APP_NAME);
 
@@ -136,9 +169,23 @@ void cLogger::setProbeDbVersion(int ver)
 }
 void cLogger::messageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
+    // Ensure d_ptr is initialized (thread-safe check)
+    {
+        QMutexLocker initLocker(d_ptrMutex());
+        if (!d_ptr) {
+            // Fallback to standard output if logger not initialized
+            std::cerr << "[FALLBACK] " << msg.toLocal8Bit().constData() << std::endl;
+            return;
+        }
+    }
+    
     // Bail out if the log type is not available for the message
-    if(!d_ptr->logTypes.contains(type)) {
-        return;
+    // Use mutex to safely check logTypes
+    {
+        QMutexLocker logMutexLocker(&d_ptr->logMutex);
+        if(!d_ptr->logTypes.contains(type)) {
+            return;
+        }
     }
 #ifdef PLAT_LINUX_IMX6
     const QString qstr = "PulseAudioService: pa_context_connect() failed";
@@ -153,7 +200,6 @@ void cLogger::messageHandler(QtMsgType type, const QMessageLogContext &context, 
     QString timestamp = d_ptr->enableTimeStamp ? QDateTime::currentDateTimeUtc().toString("[yyyy/MM/dd HH:mm:ss.zzz]") : "";
 #endif
 
-    QMutexLocker logMutexLocker(&d_ptr->logMutex);
     QString logMessage;
 
     // Try to figure out what module generated the message based on the filename
@@ -199,14 +245,25 @@ void cLogger::messageHandler(QtMsgType type, const QMessageLogContext &context, 
     }
 #endif
 
-    QString levelString = g_strLevelList.at(type);
+    // Safely get level string with bounds checking
+    QString levelString = "UNK";
+    if (type >= 0 && type < g_strLevelList.size()) {
+        levelString = g_strLevelList.at(type);
+    } else {
+        qWarning() << "cLogger::messageHandler: Invalid message type:" << type;
+    }
     // Get the thread name, if one is set
     if(threadName == "")
         threadName = "NoThread";
 //    threadName = QString("[%1]").arg(threadName).leftJustified(threadFieldWidth);
 
-    static int repeatedMessageCount = 0;
+    // Use thread-local storage for repeated message count to ensure thread safety
+    static thread_local int repeatedMessageCount = 0;
     QString repeatedMessageString = "";
+    
+    // Lock mutex for the rest of the function to safely access d_ptr
+    QMutexLocker logMutexLocker(&d_ptr->logMutex);
+    
     // Check to see if the new log message is the same as the previous one. If so, we don't
     // want to log it again.
     if(msg == d_ptr->prevMsg) {
@@ -232,7 +289,7 @@ void cLogger::messageHandler(QtMsgType type, const QMessageLogContext &context, 
         // Create log fileif not open
         QString strSysDir;
     #ifdef PLAT_LINUX_IMX6
-        strSysDir = "/home/root";
+        strSysDir = "/62DLP_root/SystemFiles";
     #else
         strSysDir = QCoreApplication::applicationDirPath();// + "/SystemFiles";
     #endif
@@ -241,13 +298,15 @@ void cLogger::messageHandler(QtMsgType type, const QMessageLogContext &context, 
 #ifdef Q_OS_ANDROID
         QString strFilename = logFileName+".log";
 #else
-        QString strFilename = strSysDir +"/"+logFileName+".log";
+        QString strFilename = strSysDir + QDir::separator() + logFileName+".log";
 #endif
         d_ptr->logFile.setFileName(strFilename);
         if(!d_ptr->logFile.open(QIODevice::WriteOnly| QIODevice::Append)) {
-            std::cout << "Error: Cannot write file "<<d_ptr->logFile.errorString().toLocal8Bit().constData();
+            std::cerr << "Error: Cannot write file " << d_ptr->logFile.errorString().toLocal8Bit().constData() << std::endl;
             return;
         }
+        // Set file permissions: owner read/write, group read, others read
+        d_ptr->logFile.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ReadGroup | QFile::ReadOther);
     }
     if(d_ptr->logFile.isOpen()) {
         QTextStream logFileStream(&d_ptr->logFile);
@@ -378,24 +437,37 @@ void cLogger::setEnableTimeStamp(bool value)
 }
 void cLogger::checkForLogFile()
 {
-    if( QCoreApplication::instance() == NULL) {
+    if( QCoreApplication::instance() == nullptr) {
         qWarning() << "Error:QCoreApplication::instance() is NULL";
         return;
     }
 
     QString strSysDir;
 #ifdef PLAT_LINUX_IMX6
-    strSysDir = "/home/root";
+    strSysDir = "/62DLP_root/SystemFiles";
 #else
-    if(QCoreApplication::applicationDirPath().isEmpty()) {
-        qWarning() << "Error:QCoreApplication::applicationDirPath() is Empty";
-        return;
+    // Use QStandardPaths for better portability
+    QString appDataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    if(appDataPath.isEmpty()) {
+        // Fallback to application directory if standard path not available
+        if(QCoreApplication::applicationDirPath().isEmpty()) {
+            qWarning() << "Error:QCoreApplication::applicationDirPath() is Empty";
+            return;
+        }
+        strSysDir = QCoreApplication::applicationDirPath() + "/SystemFiles";
+    } else {
+        strSysDir = appDataPath + "/Logs";
     }
-    strSysDir = QCoreApplication::applicationDirPath() + "/SystemFiles";
 #endif
     QDir systDir(strSysDir);
     if(!systDir.exists()) {
-        systDir.mkdir(strSysDir);
+        if(!systDir.mkpath(strSysDir)) {
+            qWarning() << "Error: Failed to create log directory:" << strSysDir;
+            return;
+        }
+        // Set directory permissions
+        QFile::setPermissions(strSysDir, QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner | 
+                              QFile::ReadGroup | QFile::ExeGroup | QFile::ReadOther | QFile::ExeOther);
     }
 }
 
@@ -411,24 +483,45 @@ void cLogger::setPreviousMessageBufferSize(int arg)
 
 void cLogger::setLogFilePath(QString arg)
 {
+    // Validate path
+    if (arg.isEmpty()) {
+        qWarning() << "cLogger::setLogFilePath: Empty path provided";
+        return;
+    }
+    
+    QMutexLocker locker(&d_ptr->logMutex);
     if(d_ptr->logFile.isOpen()) {
         d_ptr->logFile.close();
     }
     d_ptr->logFile.setFileName(arg);
-    d_ptr->logFile.open(QIODevice::Append);
+    if (!d_ptr->logFile.open(QIODevice::Append)) {
+        qWarning() << "cLogger::setLogFilePath: Failed to open log file:" << arg << d_ptr->logFile.errorString();
+        return;
+    }
+    // Set file permissions: owner read/write, group read, others read
+    d_ptr->logFile.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ReadGroup | QFile::ReadOther);
 }
 
 cLogger::cLogger(QObject *parent) : QObject(parent)
 {
-    d_ptr = new cLoggerPrivate();
-    d_ptr->maxPreviousMessages = d_ptr->defaultMaxPreviousMessages;
-    d_ptr->logNotificationThreshold = d_ptr->defaultLogNotificationThreshold;
-    checkForLogFile();
+    QMutexLocker locker(d_ptrMutex());
+    if (!d_ptr) {
+        d_ptr = new cLoggerPrivate();
+        d_ptr->maxPreviousMessages = d_ptr->defaultMaxPreviousMessages;
+        d_ptr->logNotificationThreshold = d_ptr->defaultLogNotificationThreshold;
+        checkForLogFile();
+    }
 }
 
 cLogger::~cLogger()
 {
-    d_ptr->logFile.close();
+    if (d_ptr) {
+        if (d_ptr->logFile.isOpen()) {
+            d_ptr->logFile.close();
+        }
+        delete d_ptr;
+        d_ptr = nullptr;
+    }
 }
 
 LogMessageContext::LogMessageContext(QObject *parent)
