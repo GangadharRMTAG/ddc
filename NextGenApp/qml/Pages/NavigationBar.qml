@@ -215,20 +215,26 @@ Item {
                 visible: isMenuSelected
                 SafetyButton {
                     id: autoRideControlBtnL
-                    height: navigationBarRectL.width * 0.8
-                    width: navigationBarRectL.width * 0.8
+                    height: ScreenUtils.scaledWidth(navigationBar.height, 108)
+                    width: ScreenUtils.scaledWidth(navigationBar.height, 108)
+                    iconWidth: ScreenUtils.scaledWidth(navigationBar.height, 80)
+                    iconHeight: ScreenUtils.scaledWidth(navigationBar.height, 80)
                     source:  "qrc:/Images/NavigationBar/ARC.svg"
                 }
                 SafetyButton {
                     id :autoIdleBtnL
-                    height: navigationBarRectL.width * 0.8
-                    width: navigationBarRectL.width * 0.8
+                    height: ScreenUtils.scaledWidth(navigationBar.height, 108)
+                    width: ScreenUtils.scaledWidth(navigationBar.height, 108)
+                    iconWidth: ScreenUtils.scaledWidth(navigationBar.height, 80)
+                    iconHeight: ScreenUtils.scaledWidth(navigationBar.height, 80)
                     source:  "qrc:/Images/NavigationBar/AutoIdle.svg"
                 }
                 SafetyButton {
                     id: ezehBtnL
-                    height: navigationBarRectL.width * 0.8
-                    width: navigationBarRectL.width * 0.8
+                    height: ScreenUtils.scaledWidth(navigationBar.height, 108)
+                    width: ScreenUtils.scaledWidth(navigationBar.height, 108)
+                    iconWidth: ScreenUtils.scaledWidth(navigationBar.height, 80)
+                    iconHeight: ScreenUtils.scaledWidth(navigationBar.height, 80)
                     showHighlightBar: false
                     source: ezehLevels[ezehSelected]
                     onClicked: {

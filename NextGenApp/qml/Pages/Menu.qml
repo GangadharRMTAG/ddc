@@ -53,7 +53,7 @@ Item {
                 right: parent.right
                 top: parent.top
             }
-            height: ScreenUtils.scaledHeight(mainWindow.height, 104)
+            height: ScreenUtils.scaledHeight(mainWindow.height, isPortrait ? 104 : 204)
             Row{
                 anchors.fill: parent
                 anchors.bottomMargin: ScreenUtils.scaledHeight(mainWindow.height, 14)

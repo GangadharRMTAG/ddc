@@ -347,43 +347,45 @@ Item {
                             height: parent.height * 0.7
                             width: parent.width * 0.7
                             anchors.centerIn: parent
-                            source: "qrc:/Images/CASE_logo.png"
+                            source: "qrc:/Images/CASE_logo.svg"
                         }
                     }
                     GaugeInfoBtn{
                         height: parent.height/6
                         width: parent.width
-                        sourceImg: "qrc:/Images/GaugesArea/FuelLevel_R.png"
+                        sourceImg: appInterface.gauges[0] === 1
+                                   ? "qrc:/Images/GaugesArea/FuelLevel_R.svg"
+                                   : "qrc:/Images/GaugesArea/FuelLevel_W.svg"
                         indicatorPos: 0
-                        indicatorVal: 1
+                        indicatorVal: appInterface.gauges[0]
                     }
                     GaugeInfoBtn{
                         height: parent.height/6
                         width: parent.width
-                        sourceImg: "qrc:/Images/GaugesArea/EngineCoolant_W.png"
+                        sourceImg: "qrc:/Images/GaugesArea/EngineCoolant_W.svg"
                         indicatorPos: 1
-                        indicatorVal: 3
+                        indicatorVal: appInterface.gauges[1]
                     }
                     GaugeInfoBtn{
                         height: parent.height/6
                         width: parent.width
-                        sourceImg: "qrc:/Images/GaugesArea/DefLevel_W.png"
+                        sourceImg: "qrc:/Images/GaugesArea/DefLevel_W.svg"
                         indicatorPos: 0
-                        indicatorVal: 4
+                        indicatorVal: appInterface.gauges[2]
                     }
                     GaugeInfoBtn{
                         height: parent.height/6
                         width: parent.width
-                        sourceImg: "qrc:/Images/GaugesArea/BatteryVoltage_W.png"
+                        sourceImg: "qrc:/Images/GaugesArea/BatteryVoltage_W.svg"
                         indicatorPos: 2
-                        indicatorVal: 3
+                        indicatorVal: appInterface.gauges[3]
                     }
                     GaugeInfoBtn{
                         height: parent.height/6
                         width: parent.width
-                        sourceImg: "qrc:/Images/GaugesArea/HydraulicOil_W.png"
+                        sourceImg: "qrc:/Images/GaugesArea/HydraulicOil_W.svg"
                         indicatorPos: 1
-                        indicatorVal: 3
+                        indicatorVal: appInterface.gauges[4]
                     }
                 }
             }

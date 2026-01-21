@@ -16,8 +16,8 @@ import QtQuick 2.0
 
 QtObject {
     id: _screenUtils
-    property int portraitWidth: 360
-    property int portraitHeight: 640
+    property int portraitWidth: 414
+    property int portraitHeight: 736
 
     property int landscapeWidth: 850
     property int landscapeHeight: 450

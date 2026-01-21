@@ -110,6 +110,7 @@ Item {
                     Image {
                         anchors.centerIn: parent
                         source: model.icon
+                        visible: telltale[index] === 1
                         width: parent.width * 0.8
                         height: parent.height * 0.8
                         fillMode: Image.PreserveAspectFit

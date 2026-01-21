@@ -112,13 +112,47 @@ Item {
     Component {
         id: landscapeLayout
         Column {
-            anchors.centerIn: parent
+            anchors.fill: parent
+            anchors.leftMargin: ScreenUtils.scaledWidth(safetyArea.height, 14)
+            anchors.rightMargin: ScreenUtils.scaledWidth(safetyArea.height, 14)
+            anchors.topMargin: ScreenUtils.scaledWidth(safetyArea.height, 14)
+            anchors.bottomMargin: ScreenUtils.scaledWidth(safetyArea.height, 14)
+            spacing: ScreenUtils.scaledWidth(safetyArea.height, 4)
             Repeater {
                 model: buttonModel
                 SafetyButton {
-                    height: safetyArea.height * 0.16
-                    width:  safetyArea.width
+                    property int buttonIndex: index
+                    height: ScreenUtils.scaledWidth(safetyArea.height, 112)
+                    width:  ScreenUtils.scaledWidth(safetyArea.height, 112)
                     source:  selected ? model.selectedIcon :  model.icon
+                    iconWidth: ScreenUtils.scaledWidth(safetyArea.height, 55)
+                    iconHeight: ScreenUtils.scaledWidth(safetyArea.height, 55)
+
+                    showHighlightBar: (buttonIndex === 0 || buttonIndex === 1)
+                    /* Central selection handling */
+                    selected:
+                        buttonIndex === 0 ? appInterface.isoActive :
+                        buttonIndex === 1 ? appInterface.creepActive :
+                        safetyArea.selectedIndex === buttonIndex
+
+
+                    onClicked: {
+                        safetyArea.selectedIndex =
+                                (safetyArea.selectedIndex === buttonIndex) ? -1 : buttonIndex
+
+                        handleSafetyButton(buttonIndex, selected)
+                    }
+
+                    onSelectedChanged: {
+                        console.log(
+                                    "[SafetyArea]",
+                                    "Index:", buttonIndex,
+                                    "Selected:", selected,
+                                    "Icon:", selected ? model.selectedIcon : model.icon
+                                    )
+                    }
+
+
                 }
             }
         }
