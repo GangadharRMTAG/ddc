@@ -7,6 +7,8 @@
  *  - Cabin temperature display
  *  - Fan speed indicator with clickable control
  *
+ * @date 08-Dec-2025
+ * @author Gangadhar Thalange
  */
 import QtQuick 2.12
 import Styles 1.0
@@ -40,7 +42,7 @@ Item {
             id: climateRect
             height: parent.height * 0.7
             width: parent.width * 0.7
-            color: Styles.color.darkSlate
+            color: Styles.color.background
             anchors.centerIn: parent
             Row {
                 anchors {top: parent.top; horizontalCenter: parent.horizontalCenter}

@@ -1,9 +1,12 @@
 /**
  * @file FlatButton.qml
- * @brief Flat button component for CASE CONSTRUCTION UI.
+ * @brief Flat button component for NextGen Display UI.
  *
  * This QML file provides a scalable, stylable flat button with optional icon and arrow,
  * used for menu and list navigation.
+ *
+ * @date 08-Dec-2025
+ * @author Gangadhar Thalange
  */
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
@@ -68,11 +71,11 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
 
-            onEntered: rowItem.color = Styles.color.darkSlateBlue
+            onEntered: rowItem.color = Styles.color.flatBtnHover
             onExited:  rowItem.color = Styles.color.background
-            onPressed: rowItem.color = Styles.color.steelNavyBlue
+            onPressed: rowItem.color = Styles.color.flatBtnPressed  
             onReleased: {
-                rowItem.color = Styles.color.darkSlateBlue
+                rowItem.color = Styles.color.flatBtnHover
                 flatBtn.clicked()
             }
         }

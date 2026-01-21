@@ -5,13 +5,16 @@
  * @file include/commonlib_global.h
  * @brief Export macros and application metadata for the common library.
  *
- * This header centralizes macros used by the common library of the DDC
+ * This header centralizes macros used by the common library of the NextGenApp
  * application. It provides:
  *  - Application and organization name constants used by Qt (e.g. QSettings).
  *  - The COMMONSHARED_EXPORT macro used to mark symbols for export/import
  *    when building or consuming the shared library.
  *
  * The header depends on Qt's qglobal.h for Q_DECL_EXPORT / Q_DECL_IMPORT.
+ *
+ * @date 08-Dec-2025
+ * @author Gangadhar Thalange
  */
 
 #include <QtCore/qglobal.h>
@@ -23,7 +26,7 @@
  * Typical use: QCoreApplication::setApplicationName(APP_NAME) or
  * when storing application-specific settings.
  */
-#define APP_NAME            "DDC"
+#define APP_NAME            "NextGenApp"
 
 /**
  * @def ORG_NAME
@@ -32,7 +35,7 @@
  * Typical use: QCoreApplication::setOrganizationName(ORG_NAME) or
  * when storing organization-scoped settings.
  */
-#define ORG_NAME            "DDC"
+#define ORG_NAME            "NextGenApp"
 
 /**
  * @def COMMON_LIBRARY

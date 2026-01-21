@@ -1,48 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>Images/SafetyArea/bdsl.png</file>
-        <file>Images/SafetyArea/creep.png</file>
-        <file>Images/SafetyArea/iso.png</file>
-        <file>Images/SafetyArea/H.png</file>
-        <file>Images/TopBar/beacon.png</file>
-        <file>Images/TopBar/cautation.png</file>
-        <file>Images/TopBar/footPedal.png</file>
-        <file>Images/TopBar/greedHeater.png</file>
-        <file>Images/TopBar/hydraulicLock.png</file>
-        <file>Images/TopBar/parkBrake.png</file>
-        <file>Images/TopBar/regeneration.png</file>
-        <file>Images/TopBar/seatBelt.png</file>
-        <file>Images/TopBar/stop.png</file>
-        <file>Images/TopBar/workLamp.png</file>
-        <file>Images/CASE_logo.png</file>
-        <file>Images/NavigationBar/BackBtn.png</file>
-        <file>Images/NavigationBar/BurgerMenu.png</file>
-        <file>Images/NavigationBar/ARC.png</file>
-        <file>Images/NavigationBar/AutoIdle.png</file>
-        <file>Images/NavigationBar/EZEHCustom.png</file>
-        <file>Images/NavigationBar/EZEHHigh.png</file>
-        <file>Images/NavigationBar/EZEHLow.png</file>
-        <file>Images/NavigationBar/EZEHMid.png</file>
-        <file>Images/NavigationBar/Home.png</file>
-        <file>Images/WidgetArea/CameraView.png</file>
-        <file>Images/WidgetArea/Climate.png</file>
-        <file>Images/WidgetArea/MachineInfo.png</file>
-        <file>Images/WidgetArea/Radio.png</file>
-        <file>Images/WidgetArea/SpeedMeater.png</file>
-        <file>Images/WidgetArea/TripInfo.png</file>
         <file>Images/WidgetArea/Idel.png</file>
-        <file>Images/GaugesArea/BatteryVoltage_W.png</file>
-        <file>Images/GaugesArea/DefLevel_W.png</file>
-        <file>Images/GaugesArea/EngineCoolant_W.png</file>
-        <file>Images/GaugesArea/FuelLevel_R.png</file>
-        <file>Images/GaugesArea/HydraulicOil_W.png</file>
         <file>Images/GaugesArea/Background.png</file>
-        <file>Images/SettingsPage/cameraSetting.png</file>
-        <file>Images/SettingsPage/machineLerning.png</file>
-        <file>Images/SettingsPage/machineSettings.png</file>
-        <file>Images/SettingsPage/machinestatus.png</file>
-        <file>Images/SettingsPage/phone.png</file>
-        <file>Images/SettingsPage/tripInformation.png</file>
         <file>Images/Climate/AirConditioning.png</file>
         <file>Images/Climate/Defrost.png</file>
         <file>Images/Climate/Recirculation.png</file>
@@ -52,7 +11,83 @@
         <file>Images/Radio/CNN.png</file>
         <file>Images/Radio/NBAradio.jpg</file>
         <file>Images/Radio/VirginRadio.png</file>
-        <file>Images/Camera/CameraSettings.png</file>
         <file>Images/Camera/DemoCameraImg.png</file>
+        <file>Images/GaugesArea/HydraulicOil_W.svg</file>
+        <file>Images/GaugesArea/FuelLevel_R.svg</file>
+        <file>Images/GaugesArea/EngineCoolant_W.svg</file>
+        <file>Images/GaugesArea/DefLevel_W.svg</file>
+        <file>Images/GaugesArea/BatteryVoltage_W.svg</file>
+        <file>Images/NavigationBar/BurgerMenu.svg</file>
+        <file>Images/NavigationBar/AutoIdle.svg</file>
+        <file>Images/NavigationBar/ARC.svg</file>
+        <file>Images/SafetyArea/iso.svg</file>
+        <file>Images/SafetyArea/creep.svg</file>
+        <file>Images/SafetyArea/bdsl.svg</file>
+        <file>Images/TopBar/workLamp.svg</file>
+        <file>Images/TopBar/stop.svg</file>
+        <file>Images/TopBar/seatBelt.svg</file>
+        <file>Images/TopBar/regeneration.svg</file>
+        <file>Images/TopBar/parkBrake.svg</file>
+        <file>Images/TopBar/hydraulicLock.svg</file>
+        <file>Images/TopBar/greedHeater.svg</file>
+        <file>Images/TopBar/footPedal.svg</file>
+        <file>Images/TopBar/cautation.svg</file>
+        <file>Images/TopBar/beacon.svg</file>
+        <file>Images/WidgetArea/Radio.svg</file>
+        <file>Images/CASE_logo.svg</file>
+        <file>Images/NavigationBar/EZEHMid.svg</file>
+        <file>Images/NavigationBar/EZEHLow.svg</file>
+        <file>Images/NavigationBar/EZEHHigh.svg</file>
+        <file>Images/NavigationBar/EZEHCustom.svg</file>
+        <file>Images/NavigationBar/BackBtn.svg</file>
+        <file>Images/NavigationBar/Home.svg</file>
+        <file>Images/SafetyArea/H.svg</file>
+        <file>Images/GaugesArea/FuelLevel_W.svg</file>
+        <file>Images/TripScreen/speedMeterWhite.svg</file>
+        <file>Images/TripScreen/tripHours.svg</file>
+        <file>Images/TripScreen/fuelUsage.svg</file>
+        <file>Images/TripScreen/fuelRate.svg</file>
+        <file>Images/TripScreen/defUsage.svg</file>
+        <file>Images/TripScreen/averageEnginePerLoad.svg</file>
+        <file>Images/GaugesArea/FuelLevel.svg</file>
+        <file>Images/actionIcon.svg</file>
+        <file>Images/infoIcon.svg</file>
+        <file>Images/SettingsPage/tripInformation.svg</file>
+        <file>Images/SettingsPage/radio.svg</file>
+        <file>Images/SettingsPage/machineStatus.svg</file>
+        <file>Images/SettingsPage/machineSettings.svg</file>
+        <file>Images/SettingsPage/machineService.svg</file>
+        <file>Images/SettingsPage/lights.svg</file>
+        <file>Images/SettingsPage/climate.svg</file>
+        <file>Images/SettingsPage/cameraSettings.svg</file>
+        <file>Images/SettingsPage/phone.svg</file>
+        <file>Images/Camera/CameraSettings.svg</file>
+        <file>Images/TripScreen/defRate.svg</file>
+        <file>Images/WidgetArea/TripInfo_inactive.svg</file>
+        <file>Images/WidgetArea/TripInfo_active.svg</file>
+        <file>Images/WidgetArea/speedMeter_inactive.svg</file>
+        <file>Images/WidgetArea/speedMeter_active.svg</file>
+        <file>Images/WidgetArea/media_inactive.svg</file>
+        <file>Images/WidgetArea/media_active.svg</file>
+        <file>Images/WidgetArea/MachineInfo_inactive.svg</file>
+        <file>Images/WidgetArea/MachineInfo_active.svg</file>
+        <file>Images/WidgetArea/Climate_inactive.svg</file>
+        <file>Images/WidgetArea/Climate_active.svg</file>
+        <file>Images/WidgetArea/CameraView_inactive.svg</file>
+        <file>Images/WidgetArea/CameraView_active.svg</file>
+        <file>Images/TripScreen/right_arrow_inactive.svg</file>
+        <file>Images/TripScreen/right_arrow_active.svg</file>
+        <file>Images/TripScreen/left_arrow_inactive.svg</file>
+        <file>Images/TripScreen/left_arrow_active.svg</file>
+        <file>Images/TripScreen/reset.svg</file>
+        <file>Images/TripScreen/arrow.svg</file>
+        <file>Images/stopIcon.svg</file>
+        <file>Images/GaugesArea/left_edge_blue.svg</file>
+        <file>Images/GaugesArea/left_edge_red.svg</file>
+        <file>Images/GaugesArea/middle.svg</file>
+        <file>Images/GaugesArea/middle_right.svg</file>
+        <file>Images/GaugesArea/right_edge_red.svg</file>
+        <file>Images/SafetyArea/Union.svg</file>
+        <file>Images/GaugesArea/Logo_Case.svg</file>
     </qresource>
 </RCC>

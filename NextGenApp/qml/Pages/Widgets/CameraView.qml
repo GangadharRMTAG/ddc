@@ -6,9 +6,12 @@
  * and an overlaid settings button. It is intended to be used wherever a small camera preview and quick
  * access to camera settings are required.
  *
+ * @date 08-Dec-2025
+ * @author Gangadhar Thalange
  */
 import QtQuick 2.12
 import Styles 1.0
+import ScreenUtils 1.0
 import "../../Components"
 
 Item {
@@ -32,10 +35,12 @@ Item {
          */
         SafetyButton {
             id: cameraSettingsBtn
-            height: cameraViewRect.height * 0.2
-            width: cameraViewRect.width * 0.15
+            height: ScreenUtils.scaledWidth(cameraView.width, 112)
+            width:  ScreenUtils.scaledWidth(cameraView.width, 112)
+            iconWidth: ScreenUtils.scaledWidth(cameraView.width, 55)
+            iconHeight: ScreenUtils.scaledWidth(cameraView.width, 55)
             anchors {top: parent.top;left: parent.left;margins: height * 0.05}
-            source: "qrc:/Images/Camera/CameraSettings.png"
+            source: "qrc:/Images/Camera/CameraSettings.svg"
             showHighlightBar: false
         }
     }

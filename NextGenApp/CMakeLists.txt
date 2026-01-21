@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(DDC VERSION 0.1 LANGUAGES CXX)
+project(NextGenApp VERSION 0.1 LANGUAGES CXX)
 
 #  set orientation to [ PORTRAIT ] or [ LANDSCAPE ]
 set(ORIENTATION "PORTRAIT")
@@ -16,13 +16,17 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Quick)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick)
 
+# ZeroMQ
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(ZMQ REQUIRED libzmq)
+
 set(PROJECT_SOURCES
         main.cpp
         ./qml/qml.qrc
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(DDC
+    qt_add_executable(NextGenApp
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         ./qml/images.qrc
@@ -30,37 +34,46 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         include/commonlib_global.h include/clogger.h
         src/clogger.cpp
         include/appinterface.h src/appinterface.cpp
+        include/constants.h
     )
-target_compile_definitions(DDC PRIVATE ORIENTATION="${ORIENTATION}")
+target_compile_definitions(NextGenApp PRIVATE ORIENTATION="${ORIENTATION}")
 
 # Define target properties for Android with Qt 6 as:
-#    set_property(TARGET DDC APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+#    set_property(TARGET NextGenApp APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
-        add_library(DDC SHARED
+        add_library(NextGenApp SHARED
             ${PROJECT_SOURCES}
         )
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
-        add_executable(DDC
+        add_executable(NextGenApp
           ${PROJECT_SOURCES}
         )
     endif()
 endif()
 
-target_link_libraries(DDC
+# -------------------------------------------------------
+# ZeroMQ include + link libraries MUST be placed AFTER target
+# -------------------------------------------------------
+target_include_directories(NextGenApp PRIVATE ${ZMQ_INCLUDE_DIRS})
+
+target_link_libraries(NextGenApp
+    PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick  ${ZMQ_LIBRARIES})
+
+target_link_libraries(NextGenApp
   PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
 if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.DDC)
+  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.NextGenApp)
 endif()
-set_target_properties(DDC PROPERTIES
+set_target_properties(NextGenApp PROPERTIES
     ${BUNDLE_ID_OPTION}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -69,11 +82,11 @@ set_target_properties(DDC PROPERTIES
 )
 
 include(GNUInstallDirs)
-install(TARGETS DDC
+install(TARGETS NextGenApp
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_import_qml_plugins(DDC)
-    qt_finalize_executable(DDC)
+    qt_import_qml_plugins(NextGenApp)
+    qt_finalize_executable(NextGenApp)
 endif()

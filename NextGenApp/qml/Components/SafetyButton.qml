@@ -1,8 +1,11 @@
 /**
  * @file SafetyButton.qml
- * @brief Safety button component for CASE CONSTRUCTION UI.
+ * @brief Safety button component for NextGen Display UI.
  *
  * This QML file provides a reusable button with highlight and selection states, used for safety and navigation controls.
+ *
+ * @date 08-Dec-2025
+ * @author Gangadhar Thalange
  */
 import QtQuick
 import QtQuick.Controls
@@ -43,19 +46,21 @@ Item {
      */
     property bool buttonHighlight: false
 
+    property alias iconWidth: iconImage.width
+    property alias iconHeight: iconImage.height
+    property alias btnColor: tile.color
+
     Rectangle {
         id: tile
         anchors.fill: parent
         radius: 6
-        color:buttonHighlight ? Styles.color.lavenderGray : Styles.color.charcolBlue
+        color:  Styles.color.safetyAreaBtnActive
         Rectangle {
             height: showHighlightBar ? (tile.height - (progressBar.height * 2)) : tile.height
             width: tile.width
             color: Styles.color.transparent
             Image {
                 id: iconImage
-                width: tile.width*0.6
-                height: tile.height*0.6
                 anchors.centerIn: parent
                 fillMode: Image.PreserveAspectFit
             }

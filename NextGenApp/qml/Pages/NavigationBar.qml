@@ -1,13 +1,17 @@
 /**
  * @file NavigationBar.qml
- * @brief Navigation bar for CASE CONSTRUCTION UI.
+ * @brief Navigation bar for NextGen Display UI.
  *
  * This QML file provides a responsive navigation bar with menu, home, and control buttons,
  * supporting both portrait and landscape layouts. The EZEH button cycles through multiple
  * states, and the bar adapts its layout based on orientation.
+ *
+ * @date 08-Dec-2025
+ * @author Gangadhar Thalange
  */
 import QtQuick 2.15
 import Styles 1.0
+import ScreenUtils 1.0
 import "../Components"
 
 Item {
@@ -30,10 +34,10 @@ Item {
      * @brief Array of EZEH level icon URLs.
      */
     property var ezehLevels: [
-        "qrc:/Images/NavigationBar/EZEHLow.png",
-        "qrc:/Images/NavigationBar/EZEHMid.png",
-        "qrc:/Images/NavigationBar/EZEHHigh.png",
-        "qrc:/Images/NavigationBar/EZEHCustom.png"]
+        "qrc:/Images/NavigationBar/EZEHLow.svg",
+        "qrc:/Images/NavigationBar/EZEHMid.svg",
+        "qrc:/Images/NavigationBar/EZEHHigh.svg",
+        "qrc:/Images/NavigationBar/EZEHCustom.svg"]
 
 
     Rectangle {
@@ -63,16 +67,21 @@ Item {
             color: Styles.color.pureBlack
             Rectangle{
                 id: menuBtnRectP
-                height: parent.height * 0.8
-                width: parent.height * 0.8
-                anchors{top: parent.top;left: parent.left;topMargin: height*0.1;leftMargin: height*0.2}
+                height: ScreenUtils.scaledWidth(navigationBar.width, 108)
+                width: ScreenUtils.scaledWidth(navigationBar.width, 108)
+                anchors{
+                    top: parent.top;
+                    left: parent.left;
+                    topMargin: ScreenUtils.scaledHeight(mainWindow.height, 8);
+                    leftMargin: ScreenUtils.scaledWidth(navigationBar.width, 14)
+                }
                 color: Styles.color.transparent
                 Image {
                     id: menuBtnImgP
-                    height: parent.height * 0.8
-                    width: parent.width * 0.8
+                    height: ScreenUtils.scaledWidth(navigationBar.width, 80)
+                    width: ScreenUtils.scaledWidth(navigationBar.width, 80)
                     anchors.centerIn: parent
-                    source: isMenuSelected ? "qrc:/Images/NavigationBar/BurgerMenu.png" : "qrc:/Images/NavigationBar/BackBtn.png"
+                    source: isMenuSelected ? "qrc:/Images/NavigationBar/BurgerMenu.svg" : "qrc:/Images/NavigationBar/BackBtn.svg"
                 }
                 MouseArea{
                     anchors.fill: parent
@@ -83,17 +92,22 @@ Item {
             }
             Rectangle{
                 id: homeBtnP
-                height: parent.height * 0.8
-                width: parent.height * 0.8
-                anchors{right: parent.right;top: parent.top;rightMargin: height*0.2;topMargin: height*0.1}
+                height: ScreenUtils.scaledWidth(navigationBar.width, 108)
+                width: ScreenUtils.scaledWidth(navigationBar.width, 108)
+                anchors{
+                    right: parent.right;
+                    top: parent.top;
+                    topMargin: ScreenUtils.scaledHeight(mainWindow.height, 8);
+                    rightMargin: ScreenUtils.scaledWidth(navigationBar.width, 14)
+                }
                 color: Styles.color.transparent
                 visible: !isMenuSelected
                 Image {
                     id: homeBtnImgP
-                    height: parent.height * 0.8
-                    width: parent.width * 0.8
+                    height: ScreenUtils.scaledWidth(navigationBar.width, 70)
+                    width: ScreenUtils.scaledWidth(navigationBar.width, 70)
                     anchors.centerIn: parent
-                    source: "qrc:/Images/NavigationBar/Home.png"
+                    source: "qrc:/Images/NavigationBar/Home.svg"
                 }
                 MouseArea{
                     anchors.fill: parent
@@ -103,25 +117,35 @@ Item {
                 }
             }
             Row{
-                anchors{verticalCenter: parent.verticalCenter; right: parent.right;rightMargin: navigationBarRectP.height * 0.1}
-                spacing: 3
+                anchors{
+                    verticalCenter: parent.verticalCenter;
+                    right: parent.right;
+                    rightMargin: ScreenUtils.scaledWidth(navigationBar.width, 14)
+                }
+                spacing: ScreenUtils.scaledWidth(navigationBar.width, 4)
                 visible: isMenuSelected
                 SafetyButton {
                     id: autoRideControlBtnP
-                    height: navigationBarRectP.height * 0.8
-                    width: navigationBarRectP.height * 0.8
-                    source:  "qrc:/Images/NavigationBar/ARC.png"
+                    height: ScreenUtils.scaledWidth(navigationBar.width, 108)
+                    width: ScreenUtils.scaledWidth(navigationBar.width, 108)
+                    source:  "qrc:/Images/NavigationBar/ARC.svg"
+                    iconWidth: ScreenUtils.scaledWidth(navigationBar.width, 55)
+                    iconHeight: ScreenUtils.scaledWidth(navigationBar.width, 55)
                 }
                 SafetyButton {
                     id :autoIdleBtnP
-                    height: navigationBarRectP.height * 0.8
-                    width: navigationBarRectP.height * 0.8
-                    source:  "qrc:/Images/NavigationBar/AutoIdle.png"
+                    height: ScreenUtils.scaledWidth(navigationBar.width, 108)
+                    width: ScreenUtils.scaledWidth(navigationBar.width, 108)
+                    source:  "qrc:/Images/NavigationBar/AutoIdle.svg"
+                    iconWidth: ScreenUtils.scaledWidth(navigationBar.width, 55)
+                    iconHeight: ScreenUtils.scaledWidth(navigationBar.width, 55)
                 }
                 SafetyButton {
                     id: ezehBtnP
-                    height: navigationBarRectP.height * 0.8
-                    width: navigationBarRectP.height * 0.8
+                    height: ScreenUtils.scaledWidth(navigationBar.width, 108)
+                    width: ScreenUtils.scaledWidth(navigationBar.width, 108)
+                    iconWidth: ScreenUtils.scaledWidth(navigationBar.width, 80)
+                    iconHeight: ScreenUtils.scaledWidth(navigationBar.width, 80)
                     showHighlightBar: false
                     source: ezehLevels[ezehSelected]
                     onClicked: {
@@ -155,7 +179,7 @@ Item {
                     height: parent.height * 0.8
                     width: parent.width * 0.8
                     anchors.centerIn: parent
-                    source: isMenuSelected ? "qrc:/Images/NavigationBar/BurgerMenu.png" : "qrc:/Images/NavigationBar/BackBtn.png"
+                    source: isMenuSelected ? "qrc:/Images/NavigationBar/BurgerMenu.svg" : "qrc:/Images/NavigationBar/BackBtn.svg"
                 }
                 MouseArea{
                     anchors.fill: parent
@@ -176,7 +200,7 @@ Item {
                     height: parent.height * 0.8
                     width: parent.width * 0.8
                     anchors.centerIn: parent
-                    source: "qrc:/Images/NavigationBar/Home.png"
+                    source: "qrc:/Images/NavigationBar/Home.svg"
                 }
                 MouseArea{
                     anchors.fill: parent
@@ -193,13 +217,13 @@ Item {
                     id: autoRideControlBtnL
                     height: navigationBarRectL.width * 0.8
                     width: navigationBarRectL.width * 0.8
-                    source:  "qrc:/Images/NavigationBar/ARC.png"
+                    source:  "qrc:/Images/NavigationBar/ARC.svg"
                 }
                 SafetyButton {
                     id :autoIdleBtnL
                     height: navigationBarRectL.width * 0.8
                     width: navigationBarRectL.width * 0.8
-                    source:  "qrc:/Images/NavigationBar/AutoIdle.png"
+                    source:  "qrc:/Images/NavigationBar/AutoIdle.svg"
                 }
                 SafetyButton {
                     id: ezehBtnL

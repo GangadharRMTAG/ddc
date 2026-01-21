@@ -22,5 +22,10 @@
         <file>Pages/Widgets/Climate.qml</file>
         <file>Pages/Widgets/MachineInfo.qml</file>
         <file>Pages/Widgets/RpmWidget.qml</file>
+        <file>Singletons/ScreenUtils.qml</file>
+        <file>Pages/Widgets/DefaultRpmWidget.qml</file>
+        <file>Pages/TripInfoScreen.qml</file>
+        <file>Pages/ActionDialog.qml</file>
+        <file>Pages/Widgets/DialogButton.qml</file>
     </qresource>
 </RCC>

@@ -1,6 +1,6 @@
 /**
  * @file main.cpp
- * @brief Application entry point for the DDC Qt/QML application.
+ * @brief Application entry point for the NextGenApp Qt/QML application.
  *
  * This file contains the application's main() function which:
  *  - configures Qt application attributes,
@@ -12,6 +12,9 @@
  *
  * @note This file relies on cLogger (./include/clogger.h) and AppInterface
  *       (./include/appinterface.h) to be available and initialized.
+ *
+ * @date 08-Dec-2025
+ * @author Gangadhar Thalange
  */
 
 #include <QGuiApplication>
@@ -27,7 +30,7 @@
  *
  * Initializes Qt application attributes for high DPI scaling (on Qt < 6),
  * creates the QGuiApplication, initializes the cLogger singleton, configures
- * logger levels for the DDC logger, constructs the AppInterface, prepares
+ * logger levels for the NextGenApp logger, constructs the AppInterface, prepares
  * the QQmlApplicationEngine, exposes context properties and a QML singleton,
  * and then loads the main QML file. If the main QML file fails to load,
  * the application will exit with a non-zero code.
@@ -35,7 +38,7 @@
  * Detailed steps performed by main():
  *  1. Set AA_EnableHighDpiScaling attribute for Qt versions < 6.0.0.
  *  2. Construct QGuiApplication instance.
- *  3. Initialize cLogger singleton and set default logging levels for "DDC".
+ *  3. Initialize cLogger singleton and set default logging levels for "NextGenApp".
  *     If logger initialization fails, a qCritical message is emitted but the
  *     application continues (logging may be limited).
  *  4. Instantiate AppInterface and QQmlApplicationEngine.
@@ -62,14 +65,14 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     // Initialize logger first to capture any startup errors
-    if (!cLogger::instance().init("DDC_LOG")) {
+    if (!cLogger::instance().init("NextGenApp_LOG")) {
         // If initialization fails, emit a critical message and continue.
         qCritical() << "Failed to initialize logger. Application may not log properly.";
         // Continue execution but logging may be limited
     } else {
-        // Configure logger levels for the "DDC" logger category.
-        cLogger::instance().setLoggerLevel(QtDebugMsg,"DDC");
-        cLogger::instance().setLoggerLevel(QtWarningMsg,"DDC");
+        // Configure logger levels for the "NextGenApp" logger category.
+        cLogger::instance().setLoggerLevel(QtDebugMsg,"NextGenApp");
+        cLogger::instance().setLoggerLevel(QtWarningMsg,"NextGenApp");
     }
 
     // Create the application interface that will be exposed to QML
@@ -86,6 +89,7 @@ int main(int argc, char *argv[])
 
     // Register a QML singleton for styles so it can be imported in QML files.
     qmlRegisterSingletonType(QUrl("qrc:///Singletons/Styles.qml"), "Styles", 1, 0, "Styles");
+    qmlRegisterSingletonType(QUrl("qrc:///Singletons/ScreenUtils.qml"), "ScreenUtils", 1, 0, "ScreenUtils");
 
     // Connect to handle QML load errors: if the engine fails to create the root
     // object for the requested URL, exit the application with error.

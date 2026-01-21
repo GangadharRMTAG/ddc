@@ -1,13 +1,14 @@
 /**
  * @file MachineInfo.qml
- * @brief Machine information display widget for CASE CONSTRUCTION UI.
+ * @brief Machine information display widget for NextGen Display UI.
  *
  * This QML file displays key machine information in a styled, responsive list.
+ *
+ * @date 08-Dec-2025
+ * @author Gangadhar Thalange
  */
 import QtQuick 2.12
 import Styles 1.0
-
-
 
 Item {
     id: machineInfo
@@ -43,7 +44,7 @@ Item {
                 delegate: Rectangle {
                     height: machineInfo.height * 0.22
                     width: machineInfo.width
-                    color: Styles.color.darkSlate
+                    color: Styles.color.background
                     Text {
                         id: headingText
                         text: model.title

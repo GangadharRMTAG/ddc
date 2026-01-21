@@ -1,16 +1,26 @@
 /**
- * @file TopBar.qml
- * @brief Top bar indicator area for CASE CONSTRUCTION UI.
- *
- * This QML file provides a responsive top bar with status icons, supporting both
- * portrait and landscape layouts. Icons are dynamically generated from a model.
- */
+* @file TopBar.qml
+* @brief Top bar indicator area for NextGen Display UI.
+*
+* This QML file provides a responsive top bar with status icons, supporting both
+* portrait and landscape layouts. Icons are dynamically generated from a model.
+*
+* @date 08-Dec-2025
+* @author Gangadhar Thalange
+
+ * Updated
+ * @date 18-Dec-2025
+ * @author Kunal Kokare
+*/
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
 import Styles 1.0
+import ScreenUtils 1.0
 
 Item {
     id: topBar
+
+    property var telltale: appInterface.telltales
 
     /**
      * @brief Model for top bar status icons.
@@ -20,16 +30,16 @@ Item {
      */
     ListModel {
         id: buttonModel
-        ListElement { icon: "qrc:/Images/TopBar/stop.png" }
-        ListElement { icon: "qrc:/Images/TopBar/cautation.png" }
-        ListElement { icon: "qrc:/Images/TopBar/seatBelt.png" }
-        ListElement { icon: "qrc:/Images/TopBar/parkBrake.png" }
-        ListElement { icon: "qrc:/Images/TopBar/workLamp.png" }
-        ListElement { icon: "qrc:/Images/TopBar/beacon.png" }
-        ListElement { icon: "qrc:/Images/TopBar/regeneration.png" }
-        ListElement { icon: "qrc:/Images/TopBar/greedHeater.png" }
-        ListElement { icon: "qrc:/Images/TopBar/hydraulicLock.png" }
-        ListElement { icon: "qrc:/Images/TopBar/footPedal.png" }
+        ListElement { icon: "qrc:/Images/TopBar/stop.svg" }
+        ListElement { icon: "qrc:/Images/TopBar/cautation.svg" }
+        ListElement { icon: "qrc:/Images/TopBar/seatBelt.svg" }
+        ListElement { icon: "qrc:/Images/TopBar/parkBrake.svg" }
+        ListElement { icon: "qrc:/Images/TopBar/workLamp.svg" }
+        ListElement { icon: "qrc:/Images/TopBar/beacon.svg" }
+        ListElement { icon: "qrc:/Images/TopBar/regeneration.svg" }
+        ListElement { icon: "qrc:/Images/TopBar/greedHeater.svg" }
+        ListElement { icon: "qrc:/Images/TopBar/hydraulicLock.svg" }
+        ListElement { icon: "qrc:/Images/TopBar/footPedal.svg" }
     }
 
     Rectangle {
@@ -44,7 +54,7 @@ Item {
          */
         Loader {
             id: orientationLoader
-            anchors.centerIn: parent
+            anchors.fill: parent
             active: true
             sourceComponent: isPortrait ? portraitLayout : landscapeLayout
         }
@@ -58,19 +68,22 @@ Item {
         id: portraitLayout
 
         Row {
-            anchors.centerIn: parent
-
+            anchors.fill: parent
+            anchors.leftMargin: ScreenUtils.scaledWidth(topbarRect.width, 14)
+            anchors.rightMargin: ScreenUtils.scaledWidth(topbarRect.width, 14)
+            spacing: ScreenUtils.scaledWidth(topbarRect.width, 7)
             Repeater {
                 model: buttonModel
                 Rectangle {
-                    height: topbarRect.height
-                    width: topbarRect.width/10
-                    color: "transparent"
+                    height:ScreenUtils.scaledHeight(topbarRect.height)
+                    width: ScreenUtils.scaledWidth(topbarRect.width, 63)
+                    color: "Transparent"
                     Image {
                         anchors.centerIn: parent
                         source: model.icon
-                        width: parent.width * 0.8
-                        height: parent.height * 0.8
+                        visible: telltale[index] === 1
+                        width: ScreenUtils.scaledWidth(topbarRect.width, 50)
+                        height: ScreenUtils.scaledWidth(topbarRect.width, 50)
                         fillMode: Image.PreserveAspectFit
                     }
                 }

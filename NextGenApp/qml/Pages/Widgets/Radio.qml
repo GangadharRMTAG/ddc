@@ -5,6 +5,8 @@
  * This QML Item displays three channel images (previous, current, next), the current channel name and program,
  * and left/right arrow controls to switch channels. Channel data is provided by an internal ListModel.
  *
+ * @date 08-Dec-2025
+ * @author Gangadhar Thalange
  */
 import QtQuick 2.12
 import Styles 1.0

@@ -6,12 +6,15 @@
  * and a list of settings/menu items. The list is backed by a ListModel and each
  * item is presented via a delegate that uses the project's FlatButton component.
  *
+ * @date 08-Dec-2025
+ * @author Gangadhar Thalange
  */
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import Styles 1.0
 import "../Components"
+import ScreenUtils 1.0
 
 Item {
     id: settingsMenuRoot
@@ -42,15 +45,78 @@ Item {
         color: Styles.color.background
         z: -1
 
-        Rectangle {
-            id: headerRect
+        Rectangle{
+            id: gaugeIndicatorRect
+            color : Styles.color.darkBackground
             anchors {
                 left: parent.left
                 right: parent.right
                 top: parent.top
             }
+            height: ScreenUtils.scaledHeight(mainWindow.height, 104)
+            Row{
+                anchors.fill: parent
+                anchors.bottomMargin: ScreenUtils.scaledHeight(mainWindow.height, 14)
+                GaugeInfoBtn{
+                    height: parent.height
+                    width: parent.width/3
+                    color : Styles.color.darkBackground
+                    sourceImg: "qrc:/Images/GaugesArea/FuelLevel.svg"
+                    indicatorPos: 0
+                    indicatorVal: appInterface.gauges[0]
+                }
+
+                Item{
+                    height: parent.height
+                    width: parent.width/3
+                    Column{
+                        anchors.fill: parent
+                        spacing: 0
+                        Text {
+                            text: appInterface.rpm * 1000
+                            width: parent.width
+                            height: parent.height/2
+                            color: Styles.color.lightGray
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            font.pixelSize: ScreenUtils.scaledHeight(mainWindow.height, 74)
+                            font.styleName: "Normal"
+                            font.weight: Font.DemiBold
+                        }
+                        Text {
+                            text: "RPM"
+                            width: parent.width
+                            height: parent.height/2
+                            color: "#C7C9D7"
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            font.pixelSize: ScreenUtils.scaledHeight(mainWindow.height, 32)
+                            font.styleName: "Normal"
+                            font.weight: Font.Medium
+                        }
+                    }
+                }
+                GaugeInfoBtn{
+                    height: parent.height
+                    width: parent.width/3
+                    color : Styles.color.darkBackground
+                    sourceImg: "qrc:/Images/GaugesArea/DefLevel_W.svg"
+                    indicatorPos: 2
+                    indicatorVal: appInterface.gauges[2]
+                }
+            }
+
+        }
+
+        Rectangle {
+            id: headerRect
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: gaugeIndicatorRect.bottom
+            }
             height: 56 * settingsMenuRoot.uiScale
-            color: Styles.color.charcolBlue
+            color: Styles.color.background
 
             Row {
                 anchors.fill: parent
@@ -92,13 +158,16 @@ Item {
          */
         ListModel {
             id: settingsModel
-            ListElement { title: "Machine Service"; iconSource:  "qrc:/Images/SettingsPage/machineLerning.png" }
-            ListElement { title: "Machine Settings"; iconSource: "qrc:/Images/SettingsPage/machineSettings.png" }
-            ListElement { title: "Camera Settings"; iconSource: "qrc:/Images/SettingsPage/cameraSetting.png" }
-            ListElement { title: "Trip Information"; iconSource: "qrc:/Images/SettingsPage/tripInformation.png" }
-            ListElement { title: "Machine Status"; iconSource: "qrc:/Images/SettingsPage/machinestatus.png" }
-            ListElement { title: "Phone"; iconSource: "qrc:/Images/SettingsPage/phone.png" }
-            ListElement { title: "Lights"; iconSource: "qrc:/Images/SettingsPage/machinestatus.png" }
+            ListElement { title: "Machine Service"; iconSource:  "qrc:/Images/SettingsPage/machineService.svg" }
+            ListElement { title: "Machine Settings"; iconSource: "qrc:/Images/SettingsPage/machineSettings.svg" }
+            ListElement { title: "Camera Settings"; iconSource: "qrc:/Images/SettingsPage/cameraSettings.svg" }
+            ListElement { title: "Trip Information"; iconSource: "qrc:/Images/SettingsPage/tripInformation.svg" }
+            ListElement { title: "Machine Status"; iconSource: "qrc:/Images/SettingsPage/machineStatus.svg" }
+            ListElement { title: "Phone"; iconSource: "qrc:/Images/SettingsPage/phone.svg" }
+            ListElement { title: "Lights"; iconSource: "qrc:/Images/SettingsPage/lights.svg" }
+            ListElement { title: "Radio"; iconSource: "qrc:/Images/SettingsPage/radio.svg" }
+            ListElement { title: "Climate"; iconSource: "qrc:/Images/SettingsPage/climate.svg" }
+
         }
 
         ListView {
@@ -123,7 +192,11 @@ Item {
                     isArrow: true
                     onClicked: {
                         selectedIndex = index
-                        console.log("Clicked:", title)
+                        if(title === "Trip Information"){
+                            tripScreenLoader.source = "qrc:/Pages/TripInfoScreen.qml"
+                            headerRect.visible = false;
+                        }
+                        console.log("Clicked:", title, "selectedIndex:", index)
                     }
                 }
             }
@@ -142,6 +215,20 @@ Item {
                 anchors.right: parent.right
                 anchors.rightMargin: Math.round(2 * settingsMenuRoot.uiScale)
             }
+
         }
+        Loader {
+            id: tripScreenLoader
+            anchors {
+                left: parent.left
+                right: parent.right
+                top: gaugeIndicatorRect.bottom
+                bottom: parent.bottom
+            }
+        }
+
     }
+
 }
+
+

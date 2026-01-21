@@ -8,6 +8,9 @@
  * log file rotation. It also implements LogMessageContext which carries
  * context details about a log message (thread, module, file, function,
  * and line number).
+ *
+ * @date 08-Dec-2025
+ * @author Gangadhar Thalange
  */
 
 #include <QThread>

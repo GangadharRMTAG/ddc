@@ -1,22 +1,26 @@
 /**
  * @file main.qml
- * @brief Main entry point for the CASE CONSTRUCTION application UI.
+ * @brief Main entry point for the NextGen Display application UI.
  *
  * This QML file sets up the main application window, handles orientation-based layout loading,
  * and displays a splash screen on startup.
+ *
+ * @date 08-Dec-2025
+ * @author Gangadhar Thalange
  */
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import Styles 1.0
+import ScreenUtils 1.0
 import "./Components"
 
 Window {
     id:mainWindow
-    width: isPortrait ? 400 : 850
-    height:isPortrait ? 620 : 450
+    width: isPortrait ? ScreenUtils.portraitWidth : ScreenUtils.landscapeWidth
+    height:isPortrait ? ScreenUtils.portraitHeight : ScreenUtils.landscapeHeight
     visible: true
-    color : Styles.color.charcolNavy
-    title: qsTr("CASE CONSTRUCTION")
+    color : Styles.color.darkBackground
+    title: qsTr("NextGen Display")
 
     /**
      * @property isHomescreen

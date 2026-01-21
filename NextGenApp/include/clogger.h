@@ -1,10 +1,5 @@
 #ifndef CLOGGER_H
 #define CLOGGER_H
-
-#include <QObject>
-#include <QLoggingCategory>
-#include "commonlib_global.h"
-
 /**
  * @file clogger.h
  * @brief Central logging types and the cLogger singleton declaration.
@@ -15,7 +10,14 @@
  * which provides application-wide logging facilities, including a
  * custom message handler, log file management and previous-message
  * buffering.
+ *
+ * @date 08-Dec-2025
+ * @author Gangadhar Thalange
  */
+ 
+#include <QObject>
+#include <QLoggingCategory>
+#include "commonlib_global.h"
 
 /**
   * @class LogMessageContext
@@ -144,7 +146,7 @@ Q_DECLARE_METATYPE(LogMessageContext)
 
 COMMONSHARED_EXPORT Q_DECLARE_LOGGING_CATEGORY(_alarm_)
 
-    /**
+/**
  * @class cLogger
  * @brief Application-wide logger singleton.
  *
@@ -321,5 +323,4 @@ private:
     struct cLoggerPrivate; /**< Opaque private data implementation */
     static cLoggerPrivate *d_ptr; /**< Pointer to private implementation */
 };
-
 #endif // CLOGGER_H

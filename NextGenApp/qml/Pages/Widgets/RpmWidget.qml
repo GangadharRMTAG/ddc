@@ -7,6 +7,11 @@
  * numeric value and a small icon. The widget exposes properties to control
  * the numeric display, the 0-100 scaled value (used for arc sweep), and the
  * icon source displayed in the center.
+ *
+ * @date 08-Dec-2025
+ * @author Gangadhar Thalange
+ * Updated Kunal Kokare
+
  */
 import QtQuick 2.12
 import QtQuick.Shapes 1.12
@@ -15,29 +20,35 @@ import Styles 1.0
 Item {
     id: gauge
     anchors.fill: parent
+    anchors.topMargin: parent.height * 0.12
 
-    /**
-     * @property value0to100
-     * @brief Value for widgets that use a 0-100 scale (e.g., RPM widget).
-     */
-    property int value0to100: 35
 
     /**
      * @property rpmValue
      * @brief Current RPM value for the RPM widget.
      */
-    property int rpmValue: 1250
+    property int rpmValue: appInterface.rpm
+
+
+    /**
+     * @property value0to100
+     * @brief Value for widgets that use a 0-100 scale (e.g., RPM widget).
+     */
+    property real value0to100: Math.max(0,
+        Math.min(40,
+            rpmValue / 100.0))
+
 
     /**
      * @property source
      * @brief Default image source for widgets (used by RPM widget).
      */
-    property url source: "qrc:/Images/WidgetArea/Idel.png"
+    property url source: "qrc:/Images/SafetyArea/creep.svg"
 
     property real cx: width / 2
     property real cy: height / 2
 
-    property real outerRadius:      width * 0.30
+    property real outerRadius:      width * 0.35
     property real darkRingRadius:   outerRadius * 0.92
     property real thinGreyRadius:   outerRadius * 0.89
     property real bigWhiteRadius:   outerRadius * 0.66
@@ -84,22 +95,72 @@ Item {
 
         ShapePath {
             strokeWidth: outerRadius * 0.02
-            strokeColor: Styles.color.slateBlue
+            strokeColor: Qt.rgba(
+                    Styles.color.slateBlue.r,
+                    Styles.color.slateBlue.g,
+                    Styles.color.slateBlue.b,
+                    0.35
+                ) // faded
             fillColor: Styles.color.transparent
             capStyle: ShapePath.RoundCap
 
-            startX: cx + thinGreyRadius
+            startX: cx - (thinGreyRadius + 3)
             startY: cy
 
             PathAngleArc {
                 centerX: cx
                 centerY: cy
-                radiusX: thinGreyRadius
-                radiusY: thinGreyRadius
-                startAngle: 0
-                sweepAngle: 359.9
+                radiusX: thinGreyRadius + 3
+                radiusY: thinGreyRadius + 3
+                startAngle: 170
+                sweepAngle: 10
             }
         }
+
+        ShapePath {
+            strokeWidth: outerRadius * 0.02
+            strokeColor: Styles.color.slateBlue   // full opacity
+            fillColor: Styles.color.transparent
+            capStyle: ShapePath.RoundCap
+
+            startX: cx - (thinGreyRadius + 3)
+            startY: cy
+
+            PathAngleArc {
+                centerX: cx
+                centerY: cy
+                radiusX: thinGreyRadius + 3
+                radiusY: thinGreyRadius + 3
+                startAngle: 180
+                sweepAngle: 180
+            }
+        }
+        ShapePath {
+            strokeWidth: outerRadius * 0.02
+            strokeColor: Qt.rgba(
+                    Styles.color.slateBlue.r,
+                    Styles.color.slateBlue.g,
+                    Styles.color.slateBlue.b,
+                    0.35
+                )    // faded
+            fillColor: Styles.color.transparent
+            capStyle: ShapePath.RoundCap
+
+            startX: cx + (thinGreyRadius + 3)
+            startY: cy
+
+            PathAngleArc {
+                centerX: cx
+                centerY: cy
+                radiusX: thinGreyRadius + 3
+                radiusY: thinGreyRadius + 3
+                startAngle: 0
+                sweepAngle: 10
+            }
+        }
+
+
+
 
         ShapePath {
             strokeWidth: outerRadius * 0.4
@@ -128,9 +189,15 @@ Item {
         antialiasing: true
         layer.samples: 8
 
+
         ShapePath {
             strokeWidth: outerRadius * 0.4
-            strokeColor: Styles.color.lightBackground
+            strokeColor: Qt.rgba(
+                    Styles.color.lightBackground.r,
+                    Styles.color.lightBackground.g,
+                    Styles.color.lightBackground.b,
+                    0.7
+                )
             fillColor: Styles.color.transparent
             capStyle: ShapePath.FlatCap
 
@@ -143,7 +210,7 @@ Item {
                 radiusX: bigWhiteRadius
                 radiusY: bigWhiteRadius
                 startAngle: 180
-                sweepAngle: value0to100 * 1.8
+                sweepAngle: (value0to100 / 40.0) * 180.0
             }
         }
 
@@ -168,8 +235,8 @@ Item {
 
         ShapePath {
             strokeWidth: outerRadius * 0.05
-            strokeColor: Styles.color.errorColor
-            fillColor: Styles.color.transparent
+            strokeColor: Styles.color.transparent
+            fillColor: Styles.color.pureWhite
             capStyle: ShapePath.FlatCap
 
             startX: cx - smallWhiteRadius
@@ -181,7 +248,7 @@ Item {
                 radiusX: smallWhiteRadius
                 radiusY: smallWhiteRadius
                 startAngle: 180
-                sweepAngle: value0to100 * 1.8
+                sweepAngle: (value0to100 / 40.0) * 180.0
             }
         }
     }
@@ -241,12 +308,69 @@ Item {
 
     Rectangle {
         id: centerCircle
-        width: outerRadius * 0.85
-        height: width
+        width: outerRadius * 1.22
+        height: outerRadius * 1.22
         radius: width / 2
         x: cx - width / 2
         y: cy - height / 2
         color: Styles.color.midnightBlue
+    }
+
+
+    Shape {
+        id: innerGreyRing
+        anchors.fill: parent
+        antialiasing: true
+        layer.enabled: true
+        layer.samples: 8
+
+        ShapePath {
+            strokeWidth: outerRadius * 0.05
+            strokeColor: Styles.color.nightIndigo
+            fillColor: Styles.color.transparent
+            capStyle: ShapePath.RoundCap
+
+            startX: cx + smallWhiteRadius
+            startY: cy
+
+            PathAngleArc {
+                centerX: cx
+                centerY: cy
+                radiusX: smallWhiteRadius * 1.32
+                radiusY: smallWhiteRadius * 1.32
+                startAngle: 0
+                sweepAngle: 359.9
+            }
+        }
+    }
+
+
+
+    Shape {
+        id: innerCircleRing
+        anchors.fill: parent
+        antialiasing: true
+        layer.enabled: true
+        layer.samples: 8
+
+        ShapePath {
+            strokeWidth: outerRadius * 0.05
+            strokeColor: Styles.color.pureWhite
+            fillColor: "transparent"
+            capStyle: ShapePath.RoundCap
+
+            startX: cx - smallWhiteRadius
+            startY: cy
+
+            PathAngleArc {
+                centerX: cx
+                centerY: cy
+                radiusX: smallWhiteRadius * 1.32
+                radiusY: smallWhiteRadius * 1.32
+                startAngle: 180
+                sweepAngle: (value0to100 / 40.0) * 180.0
+            }
+        }
     }
 
     Column {
@@ -254,22 +378,31 @@ Item {
         anchors.verticalCenter: centerCircle.verticalCenter
         spacing: centerCircle.height * 0.05
 
+
         Text {
             text: rpmValue
             color: Styles.color.lightBackground
-            font.pixelSize: centerCircle.height * 0.30
+            font.pixelSize: centerCircle.height * 0.20
             font.bold: true
-            horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
+
+            transform: Translate {
+                y: centerCircle.height * 0.09
+            }
         }
+
 
         Text {
             text: "RPM"
             color: Styles.color.mistLavender
-            font.pixelSize: centerCircle.height * 0.11
-            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: centerCircle.height * 0.10
             anchors.horizontalCenter: parent.horizontalCenter
+
+            transform: Translate {
+                y: centerCircle.height * 0.03
+            }
         }
+
 
         Column {
             anchors.horizontalCenter: parent.horizontalCenter
@@ -277,25 +410,32 @@ Item {
 
             Rectangle {
                 id: imgRect
+                width: centerCircle.width * 0.1
                 height: width * 0.9
-                width: centerCircle.width * 0.12
                 color: Styles.color.transparent
 
                 Image {
-                    id: iconImage
+                    anchors.centerIn: parent
                     width: imgRect.width * 2
                     height: imgRect.height * 2
                     source: gauge.source
+                    fillMode: Image.PreserveAspectFit
+
+                }
+
+                transform: Translate {
+                    y: centerCircle.height * 0.05
                 }
             }
 
             Text {
-                text: "n/min"
+                text: "57"
                 color: Styles.color.lightBackground
-                font.pixelSize: centerCircle.height * 0.09
-                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: centerCircle.height * 0.1
+                font.bold: true
                 anchors.horizontalCenter: parent.horizontalCenter
             }
         }
     }
+
 }

@@ -1,10 +1,13 @@
 /**
  * @file MainApp_L.qml
- * @brief Landscape main application UI for CASE CONSTRUCTION.
+ * @brief Landscape main application UI for NextGen Display.
  *
  * This QML file defines the main layout for landscape orientation, organizing the
  * top bar, safety area, navigation bar, and main content area. It dynamically loads
  * the home screen or settings screen based on the application state.
+ *
+ * @date 08-Dec-2025
+ * @author Gangadhar Thalange
  */
 import QtQuick 2.12
 import Styles 1.0

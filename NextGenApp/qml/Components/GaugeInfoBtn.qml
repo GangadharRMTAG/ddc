@@ -1,100 +1,204 @@
 /**
  * @file GaugeInfoBtn.qml
- * @brief Gauge info button component for CASE CONSTRUCTION UI.
+ * @brief Gauge info button component for NextGen Display UI.
  *
- * This QML file provides a reusable gauge button with a status indicator bar, supporting
- * different indicator positions and critical state logic.
+ * @date 08-Dec-2025
+ * @author Gangadhar Thalange
+ * @modified - Kunal Kokare
  */
 import QtQuick
 import Styles 1.0
 
-Rectangle{
-    id:gaugeInfoBtn
+Rectangle {
+    id: gaugeInfoBtn
     color: Styles.color.background
 
-    /**
-     * @property sourceImg
-     * @brief URL for the gauge image.
-     */
     property string sourceImg: ""
 
-    /**
-     * @property indicatorPos
-     * @brief Indicator position: 0 = left, 1 = right, 2 = both.
-     */
     property int indicatorPos: 0
 
-    /**
-     * @property indicatorVal
-     * @brief Indicator value (1-5 levels).
-     */
-    property int indicatorVal: 3
+    property int indicatorVal: 1
 
-
-    /**
-     * @brief Gauge image displayed at the top.
-     */
     Image {
         id: gaugeInfoImg
-        height: parent.height/2
-        width: parent.width/4
-        anchors{horizontalCenter: parent.horizontalCenter;top: parent.top;topMargin: height * 0.2}
+        height: parent.height / 2
+        width: parent.width / 4
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+
         source: sourceImg
     }
-    Rectangle{
+
+    Rectangle {
         id: statusBar
         height: parent.height * 0.1
         width: parent.width * 0.8
-        clip:true
         radius: 20
-        anchors{horizontalCenter: parent.horizontalCenter;bottom: parent.bottom;bottomMargin: parent.height * 0.15}
         color: Styles.color.background
-        Row{
+
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: gaugeInfoImg.bottom
+        anchors.topMargin: 1
+
+        property int barCount: 8
+        property real barGap: width * 0.01
+        property real barWidth: (width - barGap * (barCount - 1)) / barCount
+
+
+        property string leftEdgeSource: {
+            if (indicatorPos === 0 || indicatorPos === 2 || indicatorPos === 3)
+                return "qrc:/Images/GaugesArea/left_edge_red.svg"
+
+            // indicatorPos === 1 || 4
+            return "qrc:/Images/GaugesArea/left_edge_blue.svg"
+        }
+        property string rightEdgeSource: {
+            if (indicatorPos === 1 || indicatorPos === 3 || indicatorPos === 4)
+                return "qrc:/Images/GaugesArea/right_edge_red.svg"
+
+            // indicatorPos === 0 || 2
+            return "qrc:/Images/GaugesArea/middle_right.svg"
+        }
+
+
+        property bool showMiddleEdge:
+            indicatorPos === 1 ||
+            indicatorPos === 3 ||
+            indicatorPos === 4
+
+        /* ===================== LEFT EDGE ===================== */
+
+        Image {
+            id: leftBorder
+            source: statusBar.leftEdgeSource
+
+            x: -2
+            width: statusBar.barWidth + 0.5
+            height: parent.height * 1.5
+
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: -height * 0.35
+            z: 2
+        }
+
+        /* ===================== MIDDLE EDGE ===================== */
+
+
+        Image {
+            id: middleBorder
+            visible: statusBar.showMiddleEdge
+            source: "qrc:/Images/GaugesArea/middle.svg"
+
+            x: leftBorder.x + leftBorder.width + statusBar.barGap
+
+
+            width: {
+                // stop BEFORE right edge starts
+                var endX = rightBorder.x - statusBar.barGap
+                return Math.max(0, endX - x)
+            }
+
+            height: parent.height * 0.25
+
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: -parent.height * 0.50
+            z: 2
+
+        }
+
+
+
+        /* ===================== RIGHT EDGE ===================== */
+
+        Image {
+            id: rightBorder
+            source: statusBar.rightEdgeSource
+
+            height: parent.height * 1.5
+
+            x: (indicatorPos === 0 || indicatorPos === 2)
+               ? leftBorder.x + leftBorder.width + statusBar.barGap
+               : statusBar.width - width + 2
+
+            width: (indicatorPos === 0 || indicatorPos === 2)
+                   ? (statusBar.barWidth + statusBar.barGap) * statusBar.barCount
+                     - statusBar.barGap
+                     - x
+                   : statusBar.barWidth + 0.5
+
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: -height * 0.35
+            z: 2
+        }
+
+
+        /* ===================== INDICATOR BARS ===================== */
+
+        Row {
+            id: indicatorRow
             anchors.fill: parent
-            spacing: parent.width * 0.01
+            spacing: statusBar.barGap
+            z: 1
+
             Repeater {
-                model: 5
+                model: statusBar.barCount
+
                 Rectangle {
+                    width: statusBar.barWidth
                     height: parent.height
-                    width: parent.width * 0.19
                     color: getIndicatorColor(index + 1)
                 }
             }
         }
     }
 
-    /**
-     * @brief Returns the color for each indicator bar based on value and position.
-     * @param index The 1-based index of the indicator bar.
-     * @return The color for the indicator bar.
-     */
-    function getIndicatorColor(index) {
-        if (indicatorVal < index)
-            return Styles.color.darkBackground;
-        // Left side red
-        if (indicatorPos === 0 && index === 1 && indicatorVal === 1)
-            return Styles.color.warningRed;
-        // Right side red
-        if (indicatorPos === 1 && index === 5 && indicatorVal === 5)
-            return Styles.color.warningRed;
-        // Both sides red
-        if (indicatorPos === 2 && (index === 1 || index === 5) && (indicatorVal === index))
-            return Styles.color.warningRed;
-        // Otherwise normal active color
-        return Styles.color.textLight;
-    }
+    /* ===================== BAR COLOR LOGIC ===================== */
 
-    /**
-     * @brief Returns true if the indicator is in a critical state.
-     * @return True if critical, false otherwise.
-     */
-    function isCritical() {
-        // Critical on LEFT
-        if ((indicatorPos === 0 || indicatorPos === 2) && indicatorVal === 1)
-            return true;
-        // Critical on RIGHT
-        if ((indicatorPos === 1 || indicatorPos === 2) && indicatorVal === 5)
-            return true;
-        return false;
+    function getIndicatorColor(index) {
+
+        if (indicatorVal < index)
+            return Styles.color.darkBackground
+
+        switch (indicatorPos) {
+
+            // Fuel
+        case 0:
+            if (indicatorVal === 1 && index === 1)
+                return Styles.color.warningRed
+            return Styles.color.valGreen
+
+            // Engine Coolant
+        case 1:
+            if (indicatorVal === 1)
+                return Styles.color.warningRed
+            if (indicatorVal === 8)
+                return Styles.color.warningRed
+            return Styles.color.valGreen
+
+            // Battery (both critical)
+        case 2:
+            if (indicatorVal === 1 || indicatorVal === 8)
+                return Styles.color.warningRed
+            return Styles.color.valGreen
+
+            // DEF
+        case 3:
+            if (indicatorVal === 1 && index === 1)
+                return Styles.color.warningRed
+            if (indicatorVal === 8)
+                return Styles.color.warningRed
+            return Styles.color.valGreen
+
+            // Hydraulic
+        case 4:
+            if (indicatorVal === 1)
+                return Styles.color.warningRed
+            if (indicatorVal === 8)
+                return Styles.color.warningRed
+            return Styles.color.valGreen
+
+        default:
+            return Styles.color.valGreen
+        }
     }
 }

@@ -1,3 +1,13 @@
+/**
+ * @file Styles.qml
+ * @brief Singleton styles and theme definitions for NextGen Display UI.
+ *
+ * This QML file provides a singleton object containing color definitions, font loaders,
+ * and other style-related properties used throughout the application.
+ *
+ * @date 08-Dec-2025
+ * @author Gangadhar Thalange
+ */
 pragma Singleton
 import QtQuick
 
@@ -19,8 +29,8 @@ Item {
         property color valGreen: "#008900"
         property color charcolNavy: "#1b2736"
         property color charcolBlue: "#3b3f56"
-        property color background: "#2d3249"
-        property color darkBackground: "#1f2437"
+        property color background: "#2B2E35"
+        property color darkBackground: "#23252B"
         property color warningRed: "#ff0000"
         property color seperator: "#434860"
         property color pureWhite: "#ffffff"
@@ -54,6 +64,29 @@ Item {
         property color darkSlateBlue: "#32384f"
         property color steelNavyBlue: "#374058"
         property color lightGray: "#E0E0E0"
+        property color edgeBlue:"#3098F2"
+
+        // Pop up area
+        property color popupBt1: "#D9DBE5"
+        property color popupBt2: "#343640"
+        property color popUpBg: "#191A1E"
+        property color popUpWarning: "#FBA600"
+        property color popUpCriticalInfo: "#FF4141"
+    
+        // Widget Button Area
+        property color widgetButtonBackground: "#191A1E"
+        property color widgetButtonPressed: "#D9DBE5"
+     
+        // Safety Area Buttons
+        property color safetyAreaBtnActive: "#343640"
+
+        // Flat button
+        property color flatBtnHover: "#3A3E47"
+        property color flatBtnPressed: "#1F2228"
+
+        // Trip info widget
+        property color tripInfoSeparator: "#606478" 
+
 
     }
 
@@ -62,16 +95,16 @@ Item {
         id: notoSansFont
         source: "qrc:/Fonts/NotoSans-Regular.ttf"
         onStatusChanged:
-            if(notoSansFont.status === FontLoader.Error)
-                console.error(notoSansFont.source)
+        if(notoSansFont.status === FontLoader.Error)
+        console.error(notoSansFont.source)
     }
 
     FontLoader {
         id: notoMonoFont
         source: "qrc:/Fonts/NotoMono-Regular.ttf"
         onStatusChanged:
-            if(notoMonoFont.status === FontLoader.Error)
-                console.error(notoMonoFont.source)
+        if(notoMonoFont.status === FontLoader.Error)
+        console.error(notoMonoFont.source)
     }
 
     // Fonts
