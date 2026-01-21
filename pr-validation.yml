@@ -1,0 +1,131 @@
+trigger:
+  branches:
+    exclude:
+      - '*'
+
+pr:
+  branches:
+    include:
+     - develop
+
+variables:
+  - name: ARTIFACT_PATH
+    value: "$(Pipeline.Workspace)/artifacts/"
+  - name: PR_ID
+    value: "$(System.PullRequest.PullRequestId)"
+  - name: PR_ITERATION
+    value: "$(System.PullRequest.PullRequestIteration)"
+  - name: Job_Url
+    value: '$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)'   
+   
+
+stages:
+- stage: NextGenDisplayBuildStage
+  jobs:
+  - job: FirstPoolJob
+    pool:
+      name: nextgen
+    steps:
+    - script: |
+        if [ "$(Build.Reason)" = "PullRequest" ]; then
+          buildNumber="PR_$(System.PullRequest.PullRequestId)_$(System.pullRequest.pullRequestIteration)"
+        else
+          datetime=$(date +'%Y%m%d.%H%M')
+          buildNumber="Manual_$(Build.SourceBranchName)_$datetime"
+        fi
+        echo "##vso[build.updatebuildnumber]$buildNumber"
+      displayName: 'Update the buildnumber for PR & non-PR builds'
+      
+    - script: |
+        cd $(System.DefaultWorkingDirectory)
+        cd NextGenDisplay/HMITestApp
+        mkdir build && cd build
+        make
+        if [ $? -ne 0 ]; then
+          echo "Failing the stage as make failed."
+          exit 1
+        fi
+        mkdir -p $(Pipeline.Workspace)/artifacts
+        rm -rf $(Pipeline.Workspace)/artifacts/*
+        cp NextGenApp $(Pipeline.Workspace)/artifacts/
+        mv $(Pipeline.Workspace)/artifacts/HMITestApp $(Pipeline.Workspace)/artifacts/NextGenApp_HMITestApp_PR_$(System.PullRequest.PullRequestId)
+      displayName: 'Build NextGenDisplay_HMITestApp & archive binary'
+    
+    - script: |
+        cd $(System.DefaultWorkingDirectory)
+        cd cd NextGenDisplay/NextGenApp
+        mkdir build && cd build
+        make clean
+        make
+        if [ $? -ne 0 ]; then
+          echo "Failing the stage as make failed."
+          exit 1
+        fi
+        cp NextGenApp $(Pipeline.Workspace)/artifacts/
+        mv $(Pipeline.Workspace)/artifacts/NextGenApp $(Pipeline.Workspace)/artifacts/perception_controller_with_loopback_for_testing_PR_$(System.PullRequest.PullRequestId)        
+      displayName: 'Build NextGenDisplay_NextGenApp & archive binary'
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Pipeline.Workspace)/artifacts'
+        artifact: 'NextGenDisplay'  
+        publishLocation: 'pipeline'
+
+    - script: |
+        rm -rf  $(System.DefaultWorkingDirectory)/*
+        rm -rf $(Pipeline.Workspace)/*
+      displayName: 'Workspace cleanup task'
+    
+- stage: Fail_notify
+  dependsOn: NextGenDisplayScanStage
+  condition: failed()
+  jobs:
+  - job: Fail_notify
+    pool:
+      name: cnhi-dev
+    steps:
+    - script: |
+    - bash: echo "##vso[task.setvariable variable=one]failed"
+      displayName: Set new variable value
+    - script: |
+        export ACS_CONNECTION_STRING="$(ACS_CONNECTION_STRING_VAR)"
+        export SENDER_EMAIL="$(SENDER_EMAIL_VAR)"
+        export RECIPIENT_EMAIL="$(RECIPIENT_EMAIL_VAR)"
+        export status="$(one)"
+        export URL="$(Job_Url)"
+        python3 href_send_email.py
+      displayName: Fail_notify    
+
+    - script: |
+        cd $(Pipeline.Workspace)
+        sudo rm -rf *
+        cd $(System.DefaultWorkingDirectory)
+        sudo rm -rf *
+      displayName: 'Workspace Cleanup'
+        
+- stage: Pass_notify
+  dependsOn: NextGenDisplayScanStage
+  condition: succeeded()
+  jobs:
+  - job: Pass_notify
+    pool:
+      name: cnhi-dev
+    steps:
+    - script: |
+    - bash: echo "##vso[task.setvariable variable=one]success"
+      displayName: Set new variable value
+    - script: |
+        export ACS_CONNECTION_STRING="$(ACS_CONNECTION_STRING_VAR)"
+        export SENDER_EMAIL="$(SENDER_EMAIL_VAR)"
+        export RECIPIENT_EMAIL="$(RECIPIENT_EMAIL_VAR)"
+        export status="$(one)"
+        export URL="$(Job_Url)"
+        python3 href_send_email.py
+      displayName: Pass_notify      
+
+    - script: |
+        cd $(Pipeline.Workspace)
+        sudo rm -rf *
+        cd $(System.DefaultWorkingDirectory)
+        sudo rm -rf *
+      displayName: 'Workspace Cleanup'

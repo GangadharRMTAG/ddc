@@ -1,0 +1,117 @@
+trigger:
+- develop
+
+# resources:
+#   repositories:
+#   - repository: meta-platform
+#     type: git
+#     name: PlatformTeam/meta-platform
+#     ref: refs/heads/main
+
+pool:
+  name: nextgen
+
+variables:
+  # System.Debug: true
+  QEMU_YOCTO_DIR: /home/antpc-3/var-fsl-yocto/build_xwayland/tmp/deploy/images/qemux86-64
+  BUILD_DIR: $(YOCTO_DIR)/build_xwayland/
+  IMAGE: core-image-weston
+  MACHINE: nextgen
+
+steps:
+- checkout: self
+  # clean: true
+
+# Optional extra checkout
+# - checkout: meta-platform
+#   path: meta-platform
+
+# 🔐 Create .netrc securely from secret variables
+- task: Bash@3
+  displayName: 'Create secure .netrc'
+  inputs:
+    targetType: 'inline'
+    # script: |
+    #   echo "Creating ~/.netrc for secure Git access"
+    #   cat <<EOF > ~/.netrc
+    #   machine $(NETRC_MACHINE)
+    #   login $(NETRC_USERNAME)
+    #   password $(NETRC_PASSWORD)
+    #   EOF
+    #   chmod 600 ~/.netrc
+
+# 🍱 Yocto build & artifact generation
+- task: Bash@3
+  displayName: 'Build QEMU X86 YOCTO & archive binary'
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo "Creating ~/.netrc for secure Git access"
+      cat <<EOF > ~/.netrc
+      machine $(NETRC_MACHINE)
+      login $(NETRC_USERNAME)
+      password $(NETRC_PASSWORD)
+      EOF
+      chmod 600 ~/.netrc
+
+      # Run Yocto build in Docker
+      # docker run --rm \
+      #   --privileged \
+      #   --network host \
+      #   -e HOST_USER_ID=1000 \
+      #   -e HOST_USER_GID=1000 \
+      #   -v /home/antpc-3/var-fsl-yocto:/workdir \
+      #   ghcr.io/varigit/var-host-docker-containers/yocto-env:22.04-dd7218bb \
+      #   bash -c "cd /workdir && \
+      #            source setup-environment build_xwayland && \
+      #            export MACHINE=qemux86-64 && \
+      #            bitbake core-image-weston -c cleansstate && \
+      #            bitbake core-image-weston"
+
+      docker run --rm \
+        --privileged \
+        --network host \
+        -e HOST_USER_ID=1000 \
+        -e HOST_USER_GID=1000 \
+        -e NETRC_MACHINE=${NETRC_MACHINE} \
+        -e NETRC_USERNAME=${NETRC_USERNAME} \
+        -e NETRC_PASSWORD=${NETRC_PASSWORD} \
+        -v /home/antpc-3/var-fsl-yocto:/workdir \
+        ghcr.io/varigit/var-host-docker-containers/yocto-env:22.04-dd7218bb \
+        bash -c "
+          # create .netrc inside container
+          cat <<EOF > /home/vari/.netrc
+      machine ${NETRC_MACHINE}
+      login ${NETRC_USERNAME}
+      password ${NETRC_PASSWORD}
+      EOF
+          chmod 600 /home/vari/.netrc
+
+          cd /workdir && \
+          source setup-environment build_xwayland && \
+          export MACHINE=qemux86-64 && \
+          bitbake core-image-weston -c cleansstate && \
+          bitbake core-image-weston
+        "
+
+      # Create artifacts folder
+      mkdir -p $(Pipeline.Workspace)/artifacts
+
+      # Copy the generated Yocto image and kernel
+      cp -r $(QEMU_YOCTO_DIR)/core-image-weston-qemux86-64.rootfs-*.ext4 \
+             $(QEMU_YOCTO_DIR)/bzImage--6.12.23+git0+d36334a8b9_c2c450e032-r0-qemux86-64-*.bin \
+             $(Pipeline.Workspace)/artifacts/
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish Yocto Artifacts'
+  inputs:
+    targetPath: '$(Pipeline.Workspace)/artifacts'
+    artifact: 'YoctoQEMU'
+    publishLocation: 'pipeline'
+
+- script: |
+      cd $(Pipeline.Workspace)
+      sudo rm -rf *
+      cd $(System.DefaultWorkingDirectory)
+      sudo rm -rf *
+  displayName: 'Workspace Cleanup'
