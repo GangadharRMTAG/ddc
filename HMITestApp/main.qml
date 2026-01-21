@@ -78,16 +78,16 @@ Window {
                     Layout.alignment: Qt.AlignHCenter
 
                     // Manually defined checkboxes with names
-                    CheckBox { text: "Stop";checked: true; onCheckedChanged: zmqPublisher.publishTelltale(0, checked) }
-                    CheckBox { text: "Caution"; checked: true;onCheckedChanged: zmqPublisher.publishTelltale(1, checked) }
-                    CheckBox { text: "Seat Belt";checked: true; onCheckedChanged: zmqPublisher.publishTelltale(2, checked) }
-                    CheckBox { text: "Park Brake";checked: true; onCheckedChanged: zmqPublisher.publishTelltale(3, checked) }
-                    CheckBox { text: "Work Lamp";checked: true; onCheckedChanged: zmqPublisher.publishTelltale(4, checked) }
-                    CheckBox { text: "Beacon";checked: true; onCheckedChanged: zmqPublisher.publishTelltale(5, checked) }
-                    CheckBox { text: "Regeneration";checked: true; onCheckedChanged: zmqPublisher.publishTelltale(6, checked) }
-                    CheckBox { text: "Grid Heater";checked: true; onCheckedChanged: zmqPublisher.publishTelltale(7, checked) }
-                    CheckBox { text: "Hydraulic Lock";checked: true; onCheckedChanged: zmqPublisher.publishTelltale(8, checked) }
-                    CheckBox { text: "Foot Pedal";checked: true; onCheckedChanged: zmqPublisher.publishTelltale(9, checked) }
+                    CheckBox { contentItem: Text {text: "Stop";color: "white"; horizontalAlignment: Text.AlignHCenter;leftPadding: 18}checked: true; onCheckedChanged: zmqPublisher.publishTelltale(0, checked) }
+                    CheckBox { contentItem: Text {text: "Caution";color: "white"; horizontalAlignment: Text.AlignHCenter;leftPadding: 18} checked: true;onCheckedChanged: zmqPublisher.publishTelltale(1, checked) }
+                    CheckBox { contentItem: Text {text: "Seat Belt";color: "white"; horizontalAlignment: Text.AlignHCenter;leftPadding: 18}checked: true; onCheckedChanged: zmqPublisher.publishTelltale(2, checked) }
+                    CheckBox { contentItem: Text {text: "Park Brake";color: "white"; horizontalAlignment: Text.AlignHCenter;leftPadding: 18}checked: true; onCheckedChanged: zmqPublisher.publishTelltale(3, checked) }
+                    CheckBox { contentItem: Text {text: "Work Lamp";color: "white"; horizontalAlignment: Text.AlignHCenter;leftPadding: 18}checked: true; onCheckedChanged: zmqPublisher.publishTelltale(4, checked) }
+                    CheckBox { contentItem: Text {text: "Beacon";color: "white"; horizontalAlignment: Text.AlignHCenter;leftPadding: 18}checked: true; onCheckedChanged: zmqPublisher.publishTelltale(5, checked) }
+                    CheckBox { contentItem: Text {text: "Regeneration";color: "white"; horizontalAlignment: Text.AlignHCenter;leftPadding: 18}checked: true; onCheckedChanged: zmqPublisher.publishTelltale(6, checked) }
+                    CheckBox { contentItem: Text {text: "Grid Heater";color: "white"; horizontalAlignment: Text.AlignHCenter;leftPadding: 18}checked: true; onCheckedChanged: zmqPublisher.publishTelltale(7, checked) }
+                    CheckBox { contentItem: Text {text: "Hydraulic Lock";color: "white"; horizontalAlignment: Text.AlignHCenter;leftPadding: 18}checked: true; onCheckedChanged: zmqPublisher.publishTelltale(8, checked) }
+                    CheckBox { contentItem: Text {text: "Foot Pedal";color: "white"; horizontalAlignment: Text.AlignHCenter;leftPadding: 18}checked: true; onCheckedChanged: zmqPublisher.publishTelltale(9, checked) }
                 }
 
 
@@ -321,6 +321,7 @@ Window {
                 ComboBox {
                     id: comboBox
                     width: 220
+                    anchors.horizontalCenter: parent.horizontalCenter
 
                     // key = text (string), value = number
                     model: [
