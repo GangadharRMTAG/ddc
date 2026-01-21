@@ -321,7 +321,7 @@ Window {
                 ComboBox {
                     id: comboBox
                     width: 220
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    Layout.alignment: Qt.AlignHCenter
 
                     // key = text (string), value = number
                     model: [
